@@ -1,72 +1,61 @@
-﻿using AutoMapper;
-using GadgetHub2.API.DTOs.Product;
-using GadgetHub2.API.Models;
-using GadgetHub2.API.Repositories;
+﻿using GadgetHub2.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+using GadgetHub2.API.DTOs.Product;
+using GadgetHub2.API.Repositories;
 
 namespace GadgetHub2.API.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
-public class ProductController : ControllerBase
+[Route("api/[controller]")]
+public class ProductsController : ControllerBase
 {
-    private readonly ProductRepository _repo;
+    private readonly ProductService _service;
     private readonly IMapper _mapper;
 
-    public ProductController(ProductRepository repo, IMapper mapper)
+    public ProductsController(ProductService service, IMapper mapper)
     {
-        _repo = repo;
+        _service = service;
         _mapper = mapper;
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        var products = _repo.GetAll();
-        var productsDto = _mapper.Map<List<ProductDto>>(products);
-        return Ok(productsDto);
+        var products = await _service.GetAll();
+        var productDtos = _mapper.Map<List<ProductDto>>(products);
+        return Ok(productDtos);
     }
 
     [HttpGet("{id}")]
-    public IActionResult Get(int id)
+    public async Task<IActionResult> Get(int id)
     {
-        var product = _repo.GetById(id);
+        var product = await _service.GetById(id);
         if (product == null) return NotFound();
-
-        var productDto = _mapper.Map<ProductDto>(product);
-        return Ok(productDto);
+        return Ok(_mapper.Map<ProductDto>(product));
     }
 
     [HttpPost]
-    public IActionResult Create(CreateProductDto dto)
+    public async Task<IActionResult> Create(CreateProductDto dto)
     {
         var product = _mapper.Map<Product>(dto);
-        _repo.Add(product);
-
-        var productDto = _mapper.Map<ProductDto>(product);
-        return Ok(productDto);
+        await _service.Add(product);
+        return Ok(_mapper.Map<ProductDto>(product));
     }
 
-    [HttpPut("{id}")]
-    public IActionResult Update(int id, UpdateProductDto dto)
+    [HttpPut]
+    public async Task<IActionResult> Update(UpdateProductDto dto)
     {
-        var existingProduct = _repo.GetById(id);
-        if (existingProduct == null) return NotFound();
-
-        _mapper.Map(dto, existingProduct);
-        _repo.Update(existingProduct);
-
-        var productDto = _mapper.Map<ProductDto>(existingProduct);
-        return Ok(productDto);
+        var product = _mapper.Map<Product>(dto);
+        await _service.Update(product);
+        return Ok(_mapper.Map<ProductDto>(product));
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        var product = _repo.GetById(id);
-        if (product == null) return NotFound();
-
-        _repo.Delete(product);
-        return Ok();
+        await _service.Delete(id);
+        return NoContent();
     }
 }
+

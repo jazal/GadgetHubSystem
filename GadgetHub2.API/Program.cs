@@ -1,3 +1,4 @@
+using GadgetHub2.API.Base;
 using GadgetHub2.API.Data;
 using GadgetHub2.API.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -16,8 +17,10 @@ builder.Services.AddDbContext<GadgetHubContext>(options =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(Program));
 
+builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
 //repositroy
-builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
