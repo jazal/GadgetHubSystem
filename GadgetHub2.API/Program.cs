@@ -22,7 +22,7 @@ builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 //repositroy
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<OrderRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<UserService>();
 
 //Services
 builder.Services.AddHttpClient<QuotationService>();

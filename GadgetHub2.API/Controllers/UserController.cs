@@ -10,10 +10,10 @@ namespace GadgetHub2.API.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly IUserRepository _repository;
+    private readonly UserService _repository;
     private readonly IMapper _mapper;
 
-    public UserController(IUserRepository repository, IMapper mapper)
+    public UserController(UserService repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
@@ -23,7 +23,7 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var distributors = await _repository.GetAllAsync();
+        var distributors = await _repository.GetAll();
         return Ok(_mapper.Map<List<UserDto>>(distributors));
     }
 
@@ -31,7 +31,7 @@ public class UserController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
-        var user = await _repository.GetByIdAsync(id);
+        var user = await _repository.GetById(id);
         if (user == null) return NotFound();
         return Ok(_mapper.Map<UserDto>(user));
     }
@@ -41,33 +41,30 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Create(CreateUserDto dto)
     {
         var user = _mapper.Map<User>(dto);
-        await _repository.AddAsync(user);
-        await _repository.SaveAsync();
-        return CreatedAtAction(nameof(Get), new { id = user.Id }, _mapper.Map<UserDto>(user));
+        await _repository.Add(user);
+        return Ok(_mapper.Map<UserDto>(user));
     }
 
     // PUT: api/User/{id}
-    [HttpPut("{id}")]
+    [HttpPut]
     public async Task<IActionResult> Update(int id, UpdateUserDto dto)
     {
-        var user = await _repository.GetByIdAsync(id);
+        var user = await _repository.GetById(id);
         if (user == null) return NotFound();
 
         _mapper.Map(dto, user);
-        _repository.Update(user);
-        await _repository.SaveAsync();
-        return NoContent();
+        await _repository.Update(user);
+        return Ok(_mapper.Map<UserDto>(user));
     }
 
     // DELETE: api/User/{id}
-    [HttpDelete("{id}")]
+    [HttpDelete]
     public async Task<IActionResult> Delete(int id)
     {
-        var user = await _repository.GetByIdAsync(id);
+        var user = await _repository.GetById(id);
         if (user == null) return NotFound();
 
-        _repository.Delete(user);
-        await _repository.SaveAsync();
+        await _repository.Delete(id);
         return NoContent();
     }
 }
