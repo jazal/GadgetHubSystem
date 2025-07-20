@@ -9,7 +9,6 @@ namespace GadgetHub2.API.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly OrderService _orderService;
-    private readonly OrderRepository _orderRepository;
 
     public OrderController(OrderService orderService)
     {
@@ -17,23 +16,23 @@ public class OrderController : ControllerBase
     }
 
     [HttpPost("PlaceOrder")]
-    public IActionResult PlaceOrder([FromBody] CreateOrderDto request)
+    public async Task<IActionResult> PlaceOrder([FromBody] CreateOrderDto request)
     {
-        var result = _orderService.PlaceOrder(request);
+        var result = await _orderService.PlaceOrder(request);
         return Ok(result);
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        var orders = _orderRepository.GetAll();
+        var orders = await _orderService.GetAll();
         return Ok(orders);
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    public async Task<IActionResult> GetById(int id)
     {
-        var order = _orderRepository.GetById(id);
+        var order = await _orderService.GetById(id);
         if (order == null)
             return NotFound();
 
@@ -41,28 +40,28 @@ public class OrderController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult Update(int id, [FromBody] OrderResponseDto dto)
+    public async Task<IActionResult> Update(int id, [FromBody] OrderResponseDto dto)
     {
-        var existingOrder = _orderRepository.GetById(id);
+        var existingOrder = await _orderService.GetById(id);
         if (existingOrder == null)
             return NotFound();
 
         // Example: only updating TotalAmount
-        existingOrder.TotalAmount = dto.TotalAmount;
+        //existingOrder.TotalAmount = dto.TotalAmount;
 
-        _orderRepository.Update(existingOrder);
+        await _orderService.Update(existingOrder);
 
         return Ok(existingOrder);
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        var order = _orderRepository.GetById(id);
+        var order = await _orderService.GetById(id);
         if (order == null)
             return NotFound();
 
-        _orderRepository.Delete(order);
+        await _orderService.Delete(id);
         return Ok();
     }
 }

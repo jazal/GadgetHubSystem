@@ -17,17 +17,14 @@ builder.Services.AddDbContext<GadgetHubContext>(options =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(Program));
 
+//repositroy
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
-//repositroy
-builder.Services.AddScoped<ProductService>();
-builder.Services.AddScoped<OrderRepository>();
-builder.Services.AddScoped<UserService>();
-
 //Services
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<UserService>();
 builder.Services.AddHttpClient<QuotationService>();
 builder.Services.AddScoped<OrderService>();
-builder.Services.AddScoped<OrderRepository>();
 
 
 builder.Services.AddControllers();

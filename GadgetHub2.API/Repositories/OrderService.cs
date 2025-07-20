@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GadgetHub2.API.Base;
 using GadgetHub2.API.DTOs;
 using GadgetHub2.API.Models;
 
@@ -6,58 +7,32 @@ namespace GadgetHub2.API.Repositories;
 
 public class OrderService
 {
-    private readonly OrderRepository _orderRepository;
+    private readonly IBaseRepository<Order> _repo;
     private readonly IMapper _mapper;
 
-    public OrderService(OrderRepository orderRepository, IMapper mapper)
+    public OrderService(IBaseRepository<Order> repo, IMapper mapper)
     {
-        _orderRepository = orderRepository;
+        _repo = repo;
         _mapper = mapper;
     }
 
-    public OrderResponseDto PlaceOrder(CreateOrderDto request)
+    public Task<List<Order>> GetAll() => _repo.GetAllAsync();
+    public Task<Order?> GetById(int id) => _repo.GetByIdAsync(id);
+    public Task Add(Order order) => _repo.AddAsync(order);
+    public Task Update(Order order) => _repo.UpdateAsync(order);
+    public Task Delete(int id) => _repo.DeleteAsync(id);
+
+    public async Task<OrderResponseDto> PlaceOrder(CreateOrderDto request)
     {
         var order = _mapper.Map<Order>(request);
         order.CreatedOn = DateTime.Now;
 
-        _orderRepository.Add(order);
+        await _repo.AddAsync(order);
 
         return new OrderResponseDto
         {
             OrderId = order.Id,
             CustomerId = order.CustomerId,
         };
-
-        //// Calculate total amount
-        //decimal total = request.Items.Sum(item => item.UnitPrice * item.Quantity);
-
-        //// Create Order entity
-        //var order = new Order
-        //{
-        //    CustomerId = request.CustomerId,
-        //    TotalAmount = total
-        //};
-
-        //// Map OrderItems
-        //var orderItems = request.Items.Select(item => new OrderItem
-        //{
-        //    ProductId = item.ProductId,
-        //    Quantity = item.Quantity,
-        //    Price = item.UnitPrice
-        //}).ToList();
-
-        //// Save order + items
-        //_orderRepository.Add(order, orderItems);
-
-        //// Prepare response
-        //var response = new OrderResponseDto
-        //{
-        //    OrderId = order.Id,
-        //    CustomerId = order.CustomerId,
-        //    TotalAmount = order.TotalAmount ?? 0,
-        //    EstimatedDeliveryDate = DateTime.Now.AddDays(5) // example delivery estimate
-        //};
-
-        //return response;
     }
 }
