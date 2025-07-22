@@ -30,8 +30,8 @@ public class QuotationService
         #region Delete the previous qoutation of that distributor on that order
 
         var previousQoutation = _repo.GetAll().Where(x =>
-            x.DistributorId == dto[0].DistributorId &&
-            x.OrderItemId == dto[0].OrderId
+            x.DistributorId == input[0].DistributorId &&
+            x.OrderItemId == input[0].OrderId
         );
 
         foreach (var item in previousQoutation)
