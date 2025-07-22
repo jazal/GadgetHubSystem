@@ -14,6 +14,11 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         _set = _context.Set<T>();
     }
 
+    public IQueryable<T> GetAll()
+    {
+        return _set.AsQueryable();
+    }
+
     public async Task<List<T>> GetAllAsync() => await _set.ToListAsync();
 
     public async Task<T?> GetByIdAsync(int id) => await _set.FindAsync(id);
@@ -39,4 +44,11 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
             await _context.SaveChangesAsync();
         }
     }
+
+
+    //pending
+    //public async Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate)
+    //{
+    //    return await _context.Set<T>().Where(predicate).ToListAsync();
+    //}
 }

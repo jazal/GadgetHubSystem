@@ -1,0 +1,46 @@
+﻿@page
+@model GadgetHub2.WEB.Pages.Quotations.IndexModel
+@{
+    ViewData["Title"] = "Quotations";
+}
+
+<h2>Quotations for Product @Model.ProductId</h2>
+
+@if (!Model.Quotations.Any())
+{
+    <p>No quotations available at this time.</p>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Distributor</th>
+                <th>Price</th>
+                <th>Available Quantity</th>
+                <th>Estimated Delivery (Days)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var quote in Model.Quotations)
+            {
+                <tr>
+                    <td>@quote.DistributorName</td>
+                    <td>@quote.Price.ToString("C")</td>
+                    <td>@quote.AvailableQuantity</td>
+                    <td>@quote.EstimatedDeliveryDays</td>
+                    <td>
+                        <form method="post" asp-page="/Orders/Confirm">
+                            <input type="hidden" name="ProductId" value="@Model.ProductId" />
+                            <input type="hidden" name="DistributorName" value="@quote.DistributorName" />
+                            <input type="hidden" name="Price" value="@quote.Price" />
+                            <input type="hidden" name="Quantity" value="@Model.Quantity" />
+                            <button class="btn btn-primary">Select</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

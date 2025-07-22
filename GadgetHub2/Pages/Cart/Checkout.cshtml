@@ -1,0 +1,39 @@
+﻿@page
+@model GadgetHub2.WEB.Pages.Cart.CheckoutModel
+
+<h2>Quotations</h2>
+
+@if (Model.Quotations != null && Model.Quotations.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Distributor</th>
+                <th>Price</th>
+                <th>Available</th>
+                <th>Delivery (Days)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var quote in Model.Quotations)
+            {
+                <tr>
+                    <td>@quote.ProductId</td>
+                    <td>@quote.DistributorName</td>
+                    <td>@quote.Price</td>
+                    <td>@quote.AvailableQuantity</td>
+                    <td>@quote.EstimatedDeliveryDays</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <form method="post" asp-page-handler="PlaceOrder">
+        <button class="btn btn-success">Confirm Order</button>
+    </form>
+}
+else
+{
+    <p>Loading quotations...</p>
+}

@@ -1,6 +1,8 @@
 ﻿using GadgetHub2.API.DTOs;
+using GadgetHub2.API.Models;
 using GadgetHub2.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GadgetHub2.API.Controllers;
 
@@ -32,7 +34,7 @@ public class OrderController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var order = await _orderService.GetById(id);
+        var order = await _orderService.GetOrderById(id);
         if (order == null)
             return NotFound();
 
@@ -63,5 +65,12 @@ public class OrderController : ControllerBase
 
         await _orderService.Delete(id);
         return Ok();
+    }
+
+    [HttpGet("PendingOrders")]
+    public async Task<IActionResult> GetPendingOrders()
+    {
+        var pendingOrders = await _orderService.GetPendingOrders();
+        return Ok(pendingOrders);
     }
 }

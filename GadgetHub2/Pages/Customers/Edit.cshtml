@@ -1,0 +1,26 @@
+﻿@page "{id:int}"
+@model GadgetHub2.WEB.Pages.Customers.EditModel
+
+<h2>Edit Customer</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Customer.Id" />
+
+    <div class="form-group">
+        <label asp-for="Customer.Name"></label>
+        <input asp-for="Customer.Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Customer.Email"></label>
+        <input asp-for="Customer.Email" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Customer.Password"></label>
+        <input asp-for="Customer.Password" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>

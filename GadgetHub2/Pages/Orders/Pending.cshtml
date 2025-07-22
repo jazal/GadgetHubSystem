@@ -1,0 +1,41 @@
+﻿@page 
+@model GadgetHub2.WEB.Pages.Orders.PendingModel
+@{
+    ViewData["Title"] = "Pending Orders";
+}
+
+<h2>Pending Orders</h2>
+
+@if (!Model.Orders.Any())
+{
+    <p>No pending orders.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer ID</th>
+                <th>Total Amount</th>
+                <th>Created On</th>
+                <th>View</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.CustomerName</td>
+                    <td>@order.TotalAmount</td>
+                    <td>@order.CreatedOn?.ToString("dd MMM yyyy hh:mm tt") </td>
+                    <td>
+                        <a asp-page="/Orders/View" asp-route-OrderId="@order.OrderId" class="btn btn-info">View Details</a>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

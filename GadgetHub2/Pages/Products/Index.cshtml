@@ -1,0 +1,85 @@
+﻿@* @page
+@model GadgetHub2.WEB.Pages.Products.IndexModel
+@{
+    <h2>Product List</h2>
+
+    <a class="btn btn-success" asp-page="Create">Add New Product</a>
+
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Created On</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+                    <td>@(product.Price?.ToString("C") ?? "N/A")</td>
+                    <td>@(product.CreatedOn?.ToString("yyyy-MM-dd") ?? "N/A")</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" asp-page="Edit" asp-route-id="@product.Id">Edit</a>
+                        <a class="btn btn-danger btn-sm" asp-page-handler="Delete" asp-route-id="@product.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+ *@
+@page
+@model GadgetHub2.WEB.Pages.Products.IndexModel
+
+@{
+    ViewData["Title"] = "Product List";
+}
+
+<h2>Product List</h2>
+
+<!-- Button to add a new product -->
+<a class="btn btn-success" asp-page="Create">Add New Product</a>
+
+<!-- Table displaying the list of products -->
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Created On</th>
+            <th>Actions</th> <!-- Edit/Delete -->
+            <th>Quote</th>    <!-- New: View Quotations -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Description</td>
+                <td>@(product.Price?.ToString("C") ?? "N/A")</td>
+                <td>@(product.CreatedOn?.ToString("yyyy-MM-dd") ?? "N/A")</td>
+                <td>
+                    <!-- Edit and Delete buttons -->
+                    <a class="btn btn-primary btn-sm" asp-page="Edit" asp-route-id="@product.Id">Edit</a>
+                    <a class="btn btn-danger btn-sm" asp-page-handler="Delete" asp-route-id="@product.Id">Delete</a>
+                </td>
+                <td>
+                    <!-- New: View Quotations button -->
+                    <a class="btn btn-info btn-sm"
+                       asp-page="/Quotations/Index"
+                       asp-route-ProductId="@product.Id"
+                       asp-route-Quantity="1">
+                        View Quotations
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

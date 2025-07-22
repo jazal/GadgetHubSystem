@@ -1,0 +1,37 @@
+﻿@page
+@model GadgetHub2.WEB.Pages.Cart.ConfirmationModel
+
+<h2>Order Confirmation ✅</h2>
+
+<p>Your order has been placed. Here's the summary:</p>
+
+@if (Model.OrderSummary != null && Model.OrderSummary.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Distributor</th>
+                <th>Price</th>
+                <th>Estimated Delivery</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderSummary)
+            {
+                <tr>
+                    <td>@item.ProductId</td>
+                    <td>@item.DistributorName</td>
+                    <td>@item.Price</td>
+                    <td>@item.EstimatedDeliveryDays days</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No order data found.</p>
+}
+
+<a asp-page="/Index" class="btn btn-primary mt-3">Back to Home</a>
