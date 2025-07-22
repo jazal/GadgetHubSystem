@@ -1,0 +1,43 @@
+﻿@page
+@model GadgetHub2.WEB.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+
+<form method="post">
+    <div>
+        <label for="Username">Email:</label>
+        <input type="text" id="Email" name="Email" required />
+    </div>
+
+    <div>
+        <label for="Password">Password:</label>
+        <input type="password" id="Password" name="Password" required />
+    </div>
+
+    <button type="submit">Login</button>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p style="color:red">@Model.ErrorMessage</p>
+    }
+</form>
+
+@using System.Text.Json
+@{
+    var userJson = Model.LoggedInUser != null
+        ? JsonSerializer.Serialize(Model.LoggedInUser)
+        : null;
+}
+
+@if (userJson != null)
+{
+    <script>
+        // Store to localStorage using data from Razor
+        const user = @Html.Raw(userJson);
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        window.location.href = "/Index"; // or redirect wherever you want
+    </script>
+}
