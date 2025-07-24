@@ -1,0 +1,135 @@
+﻿@* @page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+ *@
+@* 
+@page
+@model GadgetHub2.WEB.Pages.IndexModel
+
+@{
+    ViewData["Title"] = "GadgetHub - Home";
+}
+
+<h2 class="text-center mb-4">Welcome to GadgetHub</h2>
+<p class="text-center">Explore the latest gadgets from top distributors!</p>
+
+<hr />
+
+<!-- Search and Filter Form -->
+<form method="get" class="d-flex justify-content-center mb-4 gap-2">
+    <input type="text" name="SearchTerm" value="@Model.SearchTerm" class="form-control w-25" placeholder="Search products..." />
+    <input type="number" step="0.01" name="MinPrice" value="@Model.MinPrice" class="form-control w-15" placeholder="Min Price" />
+    <input type="number" step="0.01" name="MaxPrice" value="@Model.MaxPrice" class="form-control w-15" placeholder="Max Price" />
+
+    <!-- Apply Button -->
+    <button type="submit" class="btn btn-outline-primary">Apply</button>
+
+    <!-- Clear Button -->
+    <a href="/" class="btn btn-outline-secondary">Clear</a>
+</form>
+
+@if (Model.Products.Any())
+{
+    <div class="row">
+        @foreach (var product in Model.Products)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="https://via.placeholder.com/250x150" class="card-img-top" alt="@product.Name" />
+
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text text-muted">@product.Description</p>
+                        <p><strong>@(product.Price?.ToString("C") ?? "Price N/A")</strong></p>
+                    </div>
+
+                    <div class="card-footer text-center">
+                        <a class="btn btn-primary btn-sm"
+                           asp-page="/Quotations/Index"
+                           asp-route-ProductId="@product.Id"
+                           asp-route-Quantity="1">
+                            View Quotations
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p class="text-center">No products match your search and filter criteria.</p>
+}
+ *@
+
+@page
+@model GadgetHub2.WEB.Pages.IndexModel
+
+@{
+    ViewData["Title"] = "GadgetHub - Home";
+}
+
+<!-- HERO SECTION -->
+<div class="hero-section text-white text-center mb-5" style="background: url('https://images.stockcake.com/public/0/9/3/09303bca-91e2-49bb-ac5d-7599cd356de7_large/futuristic-electronics-store-stockcake.jpg') center/cover no-repeat; height: 350px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+    <h1 class="fw-bold">Discover the Latest Tech Gadgets</h1>
+    <p>Explore a world of innovation – from smart accessories to next-gen devices.</p>
+    <a href="#products" class="btn btn-primary btn-lg">Shop Now</a>
+</div>
+
+<!-- Search and Filter Form -->
+<form method="get" class="d-flex justify-content-center mb-4 gap-2">
+    <input type="text" name="SearchTerm" value="@Model.SearchTerm" class="form-control w-25" placeholder="Search products..." />
+    <input type="number" step="0.01" name="MinPrice" value="@Model.MinPrice" class="form-control w-15" placeholder="Min Price" />
+    <input type="number" step="0.01" name="MaxPrice" value="@Model.MaxPrice" class="form-control w-15" placeholder="Max Price" />
+
+    <!-- Apply Button -->
+    <button type="submit" class="btn btn-outline-primary">Apply</button>
+
+    <!-- Clear Button -->
+    <a href="/" class="btn btn-outline-secondary">Clear</a>
+</form>
+
+@if (Model.Products.Any())
+{
+    <div class="row">
+        @foreach (var product in Model.Products)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="https://via.placeholder.com/250x150" class="card-img-top" alt="@product.Name" />
+
+                    <div class="card-body text-center">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text text-muted">@product.Description</p>
+                        <p><strong>@(product.Price?.ToString("C") ?? "Price N/A")</strong></p>
+                    </div>
+
+                    <div class="card-footer text-center">
+                        <!-- View Details -->
+                        <a class="btn btn-outline-primary btn-sm me-2"
+                           asp-page="/Products/Details"
+                           asp-route-id="@product.Id">
+                            View Details
+                        </a>
+
+                        <!-- Add to Cart -->
+                        <form method="post" asp-page-handler="AddToCart" asp-route-id="@product.Id" style="display:inline;">
+                            <button type="submit" class="btn btn-primary btn-sm">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p class="text-center">No products match your search and filter criteria.</p>
+}

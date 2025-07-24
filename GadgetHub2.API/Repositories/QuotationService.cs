@@ -1,15 +1,28 @@
-﻿using GadgetHub2.API.DTOs;
+﻿using GadgetHub2.API.Base;
+using GadgetHub2.API.DTOs;
+using GadgetHub2.API.Models;
 
 namespace GadgetHub2.API.Repositories;
 
 public class QuotationService
 {
     private readonly HttpClient _httpClient;
+    private readonly IBaseRepository<Quotation> _repo;
 
-    public QuotationService(HttpClient httpClient)
+    public QuotationService(
+        HttpClient httpClient,
+        IBaseRepository<Quotation> repo
+        )
     {
         _httpClient = httpClient;
+        _repo = repo;
     }
+
+    public Task<List<Quotation>> GetAll() => _repo.GetAllAsync();
+    public Task<Quotation?> GetById(int id) => _repo.GetByIdAsync(id);
+    public Task Add(Quotation order) => _repo.AddAsync(order);
+    public Task Update(Quotation order) => _repo.UpdateAsync(order);
+    public Task Delete(int id) => _repo.DeleteAsync(id);
 
     public async Task<List<QuotationResponseDto>> GetQuotationsAsync(QuotationRequestDto request)
     {

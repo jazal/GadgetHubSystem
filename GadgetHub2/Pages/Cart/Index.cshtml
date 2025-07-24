@@ -1,0 +1,63 @@
+﻿@page
+@model GadgetHub2.WEB.Pages.Cart.IndexModel
+@{
+    ViewData["Title"] = "Your Cart";
+}
+
+<h2 class="mb-4">Shopping Cart</h2>
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <div class="alert alert-info">@Model.Message</div>
+}
+
+@if (!Model.CartItems.Any())
+{
+    <div class="alert alert-info">
+        Your cart is empty. <a asp-page="/Index">Continue Shopping</a>
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th style="width:150px;">Quantity</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Price</td>
+                    <td>
+                        <form method="post" asp-page-handler="UpdateQuantity" class="d-flex">
+                            <input type="hidden" name="id" value="@item.ProductId" />
+                            <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control me-2" />
+                            <button type="submit" class="btn btn-sm btn-secondary">Update</button>
+                        </form>
+                    </td>
+                    <td>@(item.Price * item.Quantity)</td>
+                    <td>
+                        <form method="post" asp-page-handler="Remove" asp-route-id="@item.ProductId">
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between align-items-center mt-3">
+        <h4>Total: @Model.CartItems.Sum(i => i.Price * i.Quantity)</h4>
+
+        <form method="post" asp-page-handler="Checkout">
+            <button type="submit" class="btn btn-primary btn-lg">Proceed to Checkout</button>
+        </form>
+    </div>
+}

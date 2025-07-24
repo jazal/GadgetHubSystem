@@ -1,0 +1,22 @@
+﻿@page
+@model GadgetHub2.Web.Pages.Distributors.IndexModel
+
+<h2>Distributor List</h2>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model.Distributors)
+        {
+            <tr>
+                <td>@d.Name</td>
+                <td>@d.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>

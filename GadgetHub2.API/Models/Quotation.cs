@@ -1,19 +1,20 @@
-﻿namespace GadgetHub2.API.Models
+﻿namespace GadgetHub2.API.Models;
+
+public class Quotation
 {
-    public class Quotation
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        public int DistributorId { get; set; }
+    public int DistributorId { get; set; }
 
-        public int ProductId { get; set; }
+    public int OrderId { get; set; }
 
-        public decimal Price { get; set; }
+    public int OrderItemId { get; set; }
 
-        public int Quantity { get; set; }
+    public decimal Price { get; set; }
 
-        public int EstimatedDeliveryDays { get; set; }
+    public int Quantity { get; set; }
 
-        public DateTime? CreatedOn { get; set; }
-    }
+    public int EstimatedDeliveryDays { get; set; }
+
+    public DateTime? CreatedOn { get; set; }
 }

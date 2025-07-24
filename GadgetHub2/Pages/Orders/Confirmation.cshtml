@@ -1,0 +1,10 @@
+﻿@page "{message?}"
+@model GadgetHub2.WEB.Pages.Orders.ConfirmationModel
+
+<h2 class="text-success">✅ @Model.Message</h2>
+<p>Your order has been placed successfully!</p>
+
+<div class="mt-3">
+    <a asp-page="/Index" class="btn btn-primary">Continue Shopping</a>
+    <a asp-page="/Orders/MyOrders" class="btn btn-outline-secondary ms-2">View My Orders</a>
+</div>

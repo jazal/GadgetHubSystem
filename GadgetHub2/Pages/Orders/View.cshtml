@@ -1,0 +1,40 @@
+﻿@page "{OrderId:int}"
+@model GadgetHub2.WEB.Pages.Orders.ViewModel
+
+<h2>Order Details - #@Model.OrderId</h2>
+
+@if (Model.OrderDetails != null && Model.OrderDetails.Any())
+{
+    <div>
+        <p><strong>Customer:</strong> @Model.OrderDetails[0].CustomerName</p>
+        <p><strong>Email:</strong> @Model.OrderDetails[0].CustomerEmail</p>
+        <p><strong>Order Date:</strong> @Model.OrderDetails[0].CreatedOn?.ToShortDateString()</p>
+        <p><strong>Status:</strong> @Model.OrderDetails[0].OrderStatus</p>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th> Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderDetails[0].OrderItems)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price</td>
+                    <td>@(item.Quantity* item.Price)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No order details available.</p>
+}

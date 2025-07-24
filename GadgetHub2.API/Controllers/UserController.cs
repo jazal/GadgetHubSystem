@@ -46,7 +46,7 @@ public class UserController : ControllerBase
     }
 
     // PUT: api/User/{id}
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, UpdateUserDto dto)
     {
         var user = await _repository.GetById(id);
@@ -58,7 +58,7 @@ public class UserController : ControllerBase
     }
 
     // DELETE: api/User/{id}
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         var user = await _repository.GetById(id);
