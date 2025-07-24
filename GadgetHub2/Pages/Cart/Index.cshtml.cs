@@ -1,12 +1,13 @@
-﻿using GadgetHub2.WEB.Models;
+﻿using GadgetHub.Dtos.Users;
+using GadgetHub2.WEB.Models;
 using GadgetHub2.WEB.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace GadgetHub2.WEB.Pages.Cart
 {
-public class IndexModel : PageModel
-{
+    public class IndexModel : PageModel
+    {
         private readonly OrderService _orderService;
 
         public IndexModel(OrderService orderService)
@@ -19,8 +20,8 @@ public class IndexModel : PageModel
         [TempData]
         public string Message { get; set; }  // ✅ For success/failure alerts
 
-    public void OnGet()
-    {
+        public void OnGet()
+        {
             CartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
         }
 
@@ -46,6 +47,25 @@ public class IndexModel : PageModel
 
         public async Task<IActionResult> OnPostCheckoutAsync()
         {
+            int? customerId = null;
+
+            if (HttpContext.Request.Cookies.ContainsKey("currentUser"))
+            {
+                var userJson = HttpContext.Request.Cookies["currentUser"];
+                if (!string.IsNullOrEmpty(userJson))
+                {
+                    var user = System.Text.Json.JsonSerializer.Deserialize<UserDto>(userJson);
+                    // Now you can use user.Id, user.Name, etc.
+                    customerId = user.Id;
+                }
+            }
+
+            if(!customerId.HasValue)
+            {
+                Message = "Please Login Again";
+                return RedirectToPage();
+            }
+
             var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
             if (!cart.Any())
             {
@@ -56,7 +76,7 @@ public class IndexModel : PageModel
             // ✅ Create order payload
             var order = new OrderDto
             {
-                CustomerId = 6, // ✅ Later use logged-in user ID
+                CustomerId = customerId.Value,
                 OrderItems = cart.Select(c => new OrderItemDto
                 {
                     ProductId = c.ProductId,
@@ -64,7 +84,7 @@ public class IndexModel : PageModel
                     Quantity = c.Quantity,
                     Price = c.Price
                 }).ToList()
-        };
+            };
 
             // ✅ Call API using injected _orderService
             var result = await _orderService.CreateOrderAsync(order);

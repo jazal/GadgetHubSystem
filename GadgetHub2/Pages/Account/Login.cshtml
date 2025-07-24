@@ -37,6 +37,7 @@
     <script>
         // Store to localStorage using data from Razor
         const user = @Html.Raw(userJson);
+        console.log(user);
         localStorage.setItem("currentUser", JSON.stringify(user));
         window.location.href = "/Index"; // or redirect wherever you want
     </script>
