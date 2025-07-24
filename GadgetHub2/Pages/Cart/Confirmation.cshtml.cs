@@ -1,8 +1,8 @@
-using GadgetHub2.WEB.Models;
+using GadgetHub.Web.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
 
-namespace GadgetHub2.WEB.Pages.Cart
+namespace GadgetHub.Web.Pages.Cart
 {
     public class ConfirmationModel : PageModel
     {

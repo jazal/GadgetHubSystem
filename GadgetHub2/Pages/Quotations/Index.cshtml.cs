@@ -1,9 +1,9 @@
-using GadgetHub2.WEB.Models;
-using GadgetHub2.WEB.Services;
+using GadgetHub.Web.Models;
+using GadgetHub.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GadgetHub2.WEB.Pages.Quotations;
+namespace GadgetHub.Web.Pages.Quotations;
 
 public class IndexModel : PageModel
 {

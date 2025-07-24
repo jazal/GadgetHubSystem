@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GadgetHub2.WEB.Pages.Orders
+namespace GadgetHub.Web.Pages.Orders
 {
     public class ConfirmationModel : PageModel
     {

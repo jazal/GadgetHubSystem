@@ -1,4 +1,4 @@
-using GadgetHub2.WEB.Services;
+using GadgetHub.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

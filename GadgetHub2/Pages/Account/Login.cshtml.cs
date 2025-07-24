@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
-namespace GadgetHub2.WEB.Pages.Account
+namespace GadgetHub.Web.Pages.Account
 {
     public class LoginModel : PageModel
     {
@@ -37,7 +37,7 @@ namespace GadgetHub2.WEB.Pages.Account
             if (!ModelState.IsValid)
                 return Page();
 
-            var loginRequest = new LoginDto { Email = this.Email, Password = this.Password };
+            var loginRequest = new LoginDto { Email = Email, Password = Password };
 
             var response = await _httpClient.PostAsJsonAsync("User/login", loginRequest);
 

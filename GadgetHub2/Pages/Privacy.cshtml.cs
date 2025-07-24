@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GadgetHub2.Pages
+namespace GadgetHub.Web.Pages
 {
     public class PrivacyModel : PageModel
     {

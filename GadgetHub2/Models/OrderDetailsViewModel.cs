@@ -1,4 +1,4 @@
-﻿namespace GadgetHub2.WEB.Models
+﻿namespace GadgetHub.Web.Models
 {
     public class OrderDetailsViewModel
     {

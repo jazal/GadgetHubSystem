@@ -5,7 +5,7 @@ VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GadgetHub.API", "GadgetHub2.API\GadgetHub.API.csproj", "{71EBD38A-4364-4821-B273-0D43AB505F9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GadgetHub2.WEB", "GadgetHub2\GadgetHub2.WEB.csproj", "{53B835E8-B7E4-4D31-9935-21656B9CFCBB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GadgetHub.Web", "GadgetHub2\GadgetHub.Web.csproj", "{53B835E8-B7E4-4D31-9935-21656B9CFCBB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GadgetHub.Dtos", "GadgetHub.Dtos\GadgetHub.Dtos.csproj", "{78DCB7E2-7B62-42AE-B845-A5D4EC8ED5B0}"
 EndProject

@@ -1,6 +1,6 @@
-﻿//using GadgetHub2.WEB.Pages.Account;
+﻿//using GadgetHub.Web.Pages.Account;
 
-//namespace GadgetHub2.WEB.Services
+//namespace GadgetHub.Web.Services
 //{
 //    public class LoginService
 //    {

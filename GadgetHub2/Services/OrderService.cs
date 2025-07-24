@@ -1,7 +1,6 @@
-﻿using GadgetHub2.WEB.Models;
-using System.Net.Http.Json;
+﻿using GadgetHub.Web.Models;
 
-namespace GadgetHub2.WEB.Services
+namespace GadgetHub.Web.Services
 {
     public class OrderService
     {

@@ -1,6 +1,6 @@
-﻿using GadgetHub2.WEB.Models;
+﻿using GadgetHub.Web.Models;
 
-namespace GadgetHub2.WEB.Services;
+namespace GadgetHub.Web.Services;
 
 public class QuotationService
 {

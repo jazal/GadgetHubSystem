@@ -19,12 +19,12 @@
 //    }
 //}
 
-using GadgetHub2.WEB.Models;
-using GadgetHub2.WEB.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
+using GadgetHub.Web.Models;
+using GadgetHub.Web.Services;
 
-namespace GadgetHub2.WEB.Pages
+namespace GadgetHub.Web.Pages
 {
     public class IndexModel : PageModel
     {

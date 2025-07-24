@@ -1,10 +1,11 @@
 ﻿using GadgetHub.Dtos.Users;
-using GadgetHub2.WEB.Models;
-using GadgetHub2.WEB.Services;
+using GadgetHub.Web.Models;
+using GadgetHub.Web.Services;
+using GadgetHub.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GadgetHub2.WEB.Pages.Cart
+namespace GadgetHub.Web.Pages.Cart
 {
     public class IndexModel : PageModel
     {

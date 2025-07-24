@@ -1,7 +1,7 @@
 using GadgetHub.Dtos.Order;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GadgetHub2.WEB.Pages.Orders
+namespace GadgetHub.Web.Pages.Orders
 {
     public class PendingModel : PageModel
     {

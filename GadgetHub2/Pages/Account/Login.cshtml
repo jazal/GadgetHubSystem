@@ -1,5 +1,5 @@
 ﻿@page
-@model GadgetHub2.WEB.Pages.Account.LoginModel
+@model GadgetHub.Web.Pages.Account.LoginModel
 @{
     ViewData["Title"] = "Login";
 }
@@ -26,6 +26,7 @@
 </form>
 
 @using System.Text.Json
+@using GadgetHub.Web.Pages.Account
 @{
     var userJson = Model.LoggedInUser != null
         ? JsonSerializer.Serialize(Model.LoggedInUser)
