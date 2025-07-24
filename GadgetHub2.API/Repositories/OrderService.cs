@@ -79,7 +79,9 @@ public class OrderService
             //join q in _quoRepo.GetAll() on order.Id equals q.OrderId into quotationGroup
             //from quotation in quotationGroup.DefaultIfEmpty() // left join
 
-            where order.Id == order.Id
+            join q in _quoRepo.GetAll() on order.Id equals q.OrderId into quotationGroup
+
+            where order.Id == orderId
             select new CustomerOrderDto
             {
                 OrderId = order.Id,
@@ -98,18 +100,18 @@ public class OrderService
                     ProductName = ot.ProductName,
                     Quantity = ot.Quantity
                 }).ToList(),
-                //Quotations = quotationGroup.Where(q => q != null)
-                //.Select(q => new QuotationDto
-                //{
-                //    Id = q.Id,
-                //    DistributorId = q.DistributorId,
-                //    OrderId = q.OrderId,
-                //    OrderItemId = q.OrderId,
-                //    Price = q.Price,
-                //    Quantity = q.Quantity,
-                //    EstimatedDeliveryDays = q.EstimatedDeliveryDays,
-                //    CreatedOn = q.CreatedOn
-                //}).ToList()
+                Quotations = quotationGroup.Where(q => q != null)
+                .Select(q => new QuotationDto
+                {
+                    Id = q.Id,
+                    DistributorId = q.DistributorId,
+                    OrderId = q.OrderId,
+                    OrderItemId = q.OrderId,
+                    Price = q.Price,
+                    Quantity = q.Quantity,
+                    EstimatedDeliveryDays = q.EstimatedDeliveryDays,
+                    CreatedOn = q.CreatedOn
+                }).ToList()
             }
         ).ToListAsync();
 

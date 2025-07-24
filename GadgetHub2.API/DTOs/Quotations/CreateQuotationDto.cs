@@ -4,6 +4,8 @@ public class CreateQuotationDto
 {
     public int DistributorId { get; set; }
 
+    public int OrderId { get; set; }
+
     public int OrderItemId { get; set; }
 
     public decimal Price { get; set; }

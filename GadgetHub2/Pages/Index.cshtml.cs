@@ -79,7 +79,7 @@ namespace GadgetHub2.WEB.Pages
                 else
                 {
                     cart.Add(new CartItem
-                    {
+        {
                         ProductId = product.Id,
                         ProductName = product.Name,
                         Price = product.Price ?? 0,  // ✅ Price added

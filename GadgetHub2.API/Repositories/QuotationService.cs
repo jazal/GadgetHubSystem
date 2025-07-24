@@ -1,5 +1,6 @@
 ﻿using GadgetHub2.API.Base;
 using GadgetHub2.API.DTOs;
+using GadgetHub2.API.DTOs.Quotations;
 using GadgetHub2.API.Models;
 
 namespace GadgetHub2.API.Repositories;
@@ -16,6 +17,43 @@ public class QuotationService
     {
         _httpClient = httpClient;
         _repo = repo;
+    }
+
+    public Task<List<Quotation>> GetAll() => _repo.GetAllAsync();
+    public Task<Quotation?> GetById(int id) => _repo.GetByIdAsync(id);
+    public Task Add(Quotation order) => _repo.AddAsync(order);
+    public Task Update(Quotation order) => _repo.UpdateAsync(order);
+    public Task Delete(int id) => _repo.DeleteAsync(id);
+
+    public async Task AddRange(List<CreateQuotationDto> input)
+    {
+        #region Delete the previous qoutation of that distributor on that order
+
+        var previousQoutation = _repo.GetAll().Where(x =>
+            x.DistributorId == input[0].DistributorId &&
+            x.OrderItemId == input[0].OrderId
+        );
+
+        foreach (var item in previousQoutation)
+        {
+            await Delete(item.Id);
+        }
+
+        #endregion
+
+        foreach (var item in input)
+        {
+            await Add(new Quotation
+            {
+                DistributorId = item.DistributorId,
+                OrderId = item.OrderId,
+                OrderItemId = item.OrderItemId,
+                Price = item.Price,
+                Quantity = item.Quantity,
+                EstimatedDeliveryDays = item.EstimatedDeliveryDays,
+                CreatedOn = item.CreatedOn,
+            });
+        }
     }
 
     public Task<List<Quotation>> GetAll() => _repo.GetAllAsync();

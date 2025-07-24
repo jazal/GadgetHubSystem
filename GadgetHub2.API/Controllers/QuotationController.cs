@@ -20,12 +20,31 @@ public class QuotationController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost("CreateQuotation")]
-    public async Task<IActionResult> Create(CreateQuotationDto dto)
+    [HttpGet("GetByOrderId")]
+    public async Task<IActionResult> GetByOrderId(int orderId)
     {
-        var quotation = _mapper.Map<Quotation>(dto);
-        await _service.Add(quotation);
-        return Ok(_mapper.Map<QuotationRequestDto>(quotation));
+        var qoutations = _service.GetAll().Result
+            .Where(x => x.OrderId == orderId)
+            .Select(q => new QuotationDto
+            {
+                Id = q.Id,
+                DistributorId = q.DistributorId,
+                OrderId = q.OrderId,
+                OrderItemId = q.OrderId,
+                Price = q.Price,
+                Quantity = q.Quantity,
+                EstimatedDeliveryDays = q.EstimatedDeliveryDays,
+                CreatedOn = q.CreatedOn
+            }).ToList();
+
+        return Ok(qoutations);
+    }
+
+    [HttpPost("CreateQuotation")]
+    public async Task<IActionResult> Create(List<CreateQuotationDto> dto)
+    {
+        await _service.AddRange(dto);
+        return Ok();
     }
 
     [HttpPost("getquotations")]

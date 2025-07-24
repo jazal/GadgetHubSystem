@@ -19,6 +19,15 @@ public class UserController : ControllerBase
         _mapper = mapper;
     }
 
+    [HttpPost("Login")]
+    public async Task<IActionResult> Login(LoginDto input)
+    {
+        var user = await _repository.Login(input);
+        if (user is null) return Unauthorized();
+
+        return Ok(user);
+    }
+
     // GET: api/User
     [HttpGet]
     public async Task<IActionResult> GetAll()

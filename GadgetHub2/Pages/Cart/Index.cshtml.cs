@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace GadgetHub2.WEB.Pages.Cart
 {
-    public class IndexModel : PageModel
-    {
+public class IndexModel : PageModel
+{
         private readonly OrderService _orderService;
 
         public IndexModel(OrderService orderService)
@@ -19,8 +19,8 @@ namespace GadgetHub2.WEB.Pages.Cart
         [TempData]
         public string Message { get; set; }  // ✅ For success/failure alerts
 
-        public void OnGet()
-        {
+    public void OnGet()
+    {
             CartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
         }
 
@@ -64,7 +64,7 @@ namespace GadgetHub2.WEB.Pages.Cart
                     Quantity = c.Quantity,
                     Price = c.Price
                 }).ToList()
-            };
+        };
 
             // ✅ Call API using injected _orderService
             var result = await _orderService.CreateOrderAsync(order);
