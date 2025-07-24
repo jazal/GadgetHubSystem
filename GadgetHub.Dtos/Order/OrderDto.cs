@@ -1,4 +1,4 @@
-﻿namespace GadgetHub2.API.DTOs.Order
+﻿namespace GadgetHub.Dtos.Order
 {
     public class OrderDto
     {

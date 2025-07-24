@@ -1,8 +1,8 @@
-﻿using GadgetHub2.API.DTOs.OrderItems;
-using GadgetHub2.API.DTOs.Quotations;
-using GadgetHub2.API.Models;
+﻿using GadgetHub.Dtos.Enums;
+using GadgetHub.Dtos.OrderItems;
+using GadgetHub.Dtos.Quotations;
 
-namespace GadgetHub2.API.DTOs.Order;
+namespace GadgetHub.Dtos.Order;
 
 public class CustomerOrderDto
 {

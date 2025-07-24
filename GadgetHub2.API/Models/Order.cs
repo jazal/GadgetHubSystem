@@ -1,4 +1,6 @@
-﻿namespace GadgetHub2.API.Models;
+﻿using GadgetHub.Dtos.Enums;
+
+namespace GadgetHub2.API.Models;
 
 public class Order
 {
@@ -20,9 +22,3 @@ public class Order
     }
 }
 
-public enum OrderStatus : byte
-{
-    AssignToDistributor = 0,
-    Completed = 1,
-    Close = 2
-}

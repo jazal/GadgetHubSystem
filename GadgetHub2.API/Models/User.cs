@@ -1,4 +1,6 @@
-﻿namespace GadgetHub2.API.Models;
+﻿using GadgetHub.Dtos.Enums;
+
+namespace GadgetHub2.API.Models;
 
 public class User
 {
@@ -13,8 +15,4 @@ public class User
     public UserType UserType { get; set; }
 }
 
-public enum UserType : byte
-{
-    Distributor = 1,
-    Customer = 2
-}
+

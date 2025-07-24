@@ -1,4 +1,4 @@
-﻿namespace GadgetHub2.API.DTOs
+﻿namespace GadgetHub.Dtos
 {
     public class QuotationRequestDto
     {

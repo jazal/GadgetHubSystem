@@ -1,8 +1,7 @@
-﻿using GadgetHub2.API.DTOs;
-using GadgetHub2.API.Models;
+﻿using GadgetHub.Dtos;
+using GadgetHub.Dtos.Order;
 using GadgetHub2.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace GadgetHub2.API.Controllers;
 

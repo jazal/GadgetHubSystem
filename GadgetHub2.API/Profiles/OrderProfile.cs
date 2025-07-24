@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using GadgetHub2.API.DTOs;
+using GadgetHub.Dtos;
+using GadgetHub.Dtos.Order;
 using GadgetHub2.API.Models;
 
 namespace GadgetHub2.API.Profiles;

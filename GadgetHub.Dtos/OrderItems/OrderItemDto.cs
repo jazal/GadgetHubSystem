@@ -1,6 +1,4 @@
-﻿using GadgetHub2.API.DTOs.Quotations;
-
-namespace GadgetHub2.API.DTOs.OrderItems;
+﻿namespace GadgetHub.Dtos.OrderItems;
 
 public class OrderItemDto
 {

@@ -1,6 +1,6 @@
-﻿using GadgetHub2.API.Models;
+﻿using GadgetHub.Dtos.Enums;
 
-namespace GadgetHub2.API.DTOs.Users;
+namespace GadgetHub.Dtos.Users;
 
 public class CreateUserDto
 {

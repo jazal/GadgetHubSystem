@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using GadgetHub2.API.DTOs.Product;
+using GadgetHub.Dtos.Product;
 using GadgetHub2.API.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GadgetHub2.API.Profiles
 {

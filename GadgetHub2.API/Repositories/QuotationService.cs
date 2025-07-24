@@ -1,6 +1,6 @@
-﻿using GadgetHub2.API.Base;
-using GadgetHub2.API.DTOs;
-using GadgetHub2.API.DTOs.Quotations;
+﻿using GadgetHub.Dtos;
+using GadgetHub.Dtos.Quotations;
+using GadgetHub2.API.Base;
 using GadgetHub2.API.Models;
 
 namespace GadgetHub2.API.Repositories;

@@ -1,8 +1,8 @@
 ﻿using GadgetHub2.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using GadgetHub2.API.DTOs.Product;
 using GadgetHub2.API.Repositories;
+using GadgetHub.Dtos.Product;
 
 namespace GadgetHub2.API.Controllers
 {

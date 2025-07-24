@@ -1,6 +1,6 @@
-﻿namespace GadgetHub2.API.DTOs.Product;
+﻿namespace GadgetHub.Dtos.Product;
 
-public class ProductDto
+public class UpdateProductDto
 {
     public int Id { get; set; }
 

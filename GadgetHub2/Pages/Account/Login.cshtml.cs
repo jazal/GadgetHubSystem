@@ -1,5 +1,4 @@
-using GadgetHub2.API.DTOs.Order;
-using GadgetHub2.API.DTOs.Users;
+using GadgetHub.Dtos.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;

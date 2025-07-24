@@ -1,6 +1,4 @@
-﻿using GadgetHub2.API.DTOs.OrderItems;
-
-namespace GadgetHub2.WEB.Models
+﻿namespace GadgetHub2.WEB.Models
 {
     public class OrderDto
     {

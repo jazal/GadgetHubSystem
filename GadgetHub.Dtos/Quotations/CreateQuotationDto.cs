@@ -1,4 +1,4 @@
-﻿namespace GadgetHub2.API.DTOs.Quotations;
+﻿namespace GadgetHub.Dtos.Quotations;
 
 public class CreateQuotationDto
 {

@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using GadgetHub.Dtos;
+using GadgetHub.Dtos.Enums;
+using GadgetHub.Dtos.Order;
+using GadgetHub.Dtos.OrderItems;
+using GadgetHub.Dtos.Quotations;
 using GadgetHub2.API.Base;
-using GadgetHub2.API.DTOs;
-using GadgetHub2.API.DTOs.Order;
-using GadgetHub2.API.DTOs.OrderItems;
-using GadgetHub2.API.DTOs.Quotations;
 using GadgetHub2.API.Models;
 using Microsoft.EntityFrameworkCore;
 

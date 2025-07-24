@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using GadgetHub2.API.DTOs.Users;
+using GadgetHub.Dtos.Users;
 using GadgetHub2.API.Models;
 
 namespace GadgetHub2.API.Profiles;

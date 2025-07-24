@@ -1,4 +1,4 @@
-using GadgetHub2.API.DTOs.Order;
+using GadgetHub.Dtos.Order;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace GadgetHub2.WEB.Pages.Orders

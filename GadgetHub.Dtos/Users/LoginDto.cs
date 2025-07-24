@@ -1,4 +1,4 @@
-﻿namespace GadgetHub2.API.DTOs.Users;
+﻿namespace GadgetHub.Dtos.Users;
 
 public class LoginDto
 {

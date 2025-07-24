@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GadgetHub2.API", "GadgetHub
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GadgetHub2.WEB", "GadgetHub2\GadgetHub2.WEB.csproj", "{53B835E8-B7E4-4D31-9935-21656B9CFCBB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GadgetHub.Dtos", "GadgetHub.Dtos\GadgetHub.Dtos.csproj", "{78DCB7E2-7B62-42AE-B845-A5D4EC8ED5B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{53B835E8-B7E4-4D31-9935-21656B9CFCBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53B835E8-B7E4-4D31-9935-21656B9CFCBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53B835E8-B7E4-4D31-9935-21656B9CFCBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78DCB7E2-7B62-42AE-B845-A5D4EC8ED5B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78DCB7E2-7B62-42AE-B845-A5D4EC8ED5B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78DCB7E2-7B62-42AE-B845-A5D4EC8ED5B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78DCB7E2-7B62-42AE-B845-A5D4EC8ED5B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

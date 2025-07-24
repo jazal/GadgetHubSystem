@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using GadgetHub2.API.DTOs;
-using GadgetHub2.API.DTOs.Quotations;
-using GadgetHub2.API.Models;
+using GadgetHub.Dtos;
+using GadgetHub.Dtos.Quotations;
 using GadgetHub2.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
