@@ -1,9 +1,9 @@
-﻿using GadgetHub.Dtos.Users;
-using GadgetHub2.API.Base;
-using GadgetHub2.API.Models;
+﻿using GadgetHub.API.Base;
+using GadgetHub.API.Models;
+using GadgetHub.Dtos.Users;
 using Microsoft.EntityFrameworkCore;
 
-namespace GadgetHub2.API.Repositories;
+namespace GadgetHub.API.Repositories;
 
 public class UserService
 {

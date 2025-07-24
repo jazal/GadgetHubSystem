@@ -1,4 +1,4 @@
-﻿namespace GadgetHub2.API.Models
+﻿namespace GadgetHub.API.Models
 {
     public class Product
     {

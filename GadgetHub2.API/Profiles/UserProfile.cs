@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using GadgetHub.API.Models;
 using GadgetHub.Dtos.Users;
-using GadgetHub2.API.Models;
 
-namespace GadgetHub2.API.Profiles;
+namespace GadgetHub.API.Profiles;
 
 public class UserProfile : Profile
 {

@@ -1,7 +1,7 @@
-﻿using GadgetHub2.API.Models;
+﻿using GadgetHub.API.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace GadgetHub2.API.Data;
+namespace GadgetHub.API.Data;
 
 public class GadgetHubContext : DbContext
 {

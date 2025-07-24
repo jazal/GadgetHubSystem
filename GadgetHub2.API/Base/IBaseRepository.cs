@@ -1,4 +1,4 @@
-﻿namespace GadgetHub2.API.Base;
+﻿namespace GadgetHub.API.Base;
 
 public interface IBaseRepository<T> where T : class
 {

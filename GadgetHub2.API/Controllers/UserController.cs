@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using GadgetHub.API.Models;
+using GadgetHub.API.Repositories;
 using GadgetHub.Dtos.Users;
-using GadgetHub2.API.Models;
-using GadgetHub2.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GadgetHub2.API.Controllers;
+namespace GadgetHub.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

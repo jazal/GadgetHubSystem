@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using GadgetHub.API.Models;
 using GadgetHub.Dtos;
 using GadgetHub.Dtos.Order;
-using GadgetHub2.API.Models;
 
-namespace GadgetHub2.API.Profiles;
+namespace GadgetHub.API.Profiles;
 
 public class OrderProfile : Profile
 {

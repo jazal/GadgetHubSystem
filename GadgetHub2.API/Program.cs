@@ -1,6 +1,6 @@
-using GadgetHub2.API.Base;
-using GadgetHub2.API.Data;
-using GadgetHub2.API.Repositories;
+using GadgetHub.API.Base;
+using GadgetHub.API.Data;
+using GadgetHub.API.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

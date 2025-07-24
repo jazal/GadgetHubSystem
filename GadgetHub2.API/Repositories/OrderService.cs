@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
+using GadgetHub.API.Base;
+using GadgetHub.API.Models;
 using GadgetHub.Dtos;
 using GadgetHub.Dtos.Enums;
 using GadgetHub.Dtos.Order;
 using GadgetHub.Dtos.OrderItems;
 using GadgetHub.Dtos.Quotations;
-using GadgetHub2.API.Base;
-using GadgetHub2.API.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace GadgetHub2.API.Repositories;
+namespace GadgetHub.API.Repositories;
 
 public class OrderService
 {

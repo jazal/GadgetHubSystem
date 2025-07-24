@@ -1,9 +1,9 @@
-﻿using GadgetHub.Dtos;
+﻿using GadgetHub.API.Repositories;
+using GadgetHub.Dtos;
 using GadgetHub.Dtos.Order;
-using GadgetHub2.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GadgetHub2.API.Controllers;
+namespace GadgetHub.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

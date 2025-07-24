@@ -1,7 +1,7 @@
-﻿using GadgetHub2.API.Data;
+﻿using GadgetHub.API.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace GadgetHub2.API.Base;
+namespace GadgetHub.API.Base;
 
 public class BaseRepository<T> : IBaseRepository<T> where T : class
 {

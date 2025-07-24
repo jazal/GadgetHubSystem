@@ -1,7 +1,7 @@
-﻿using GadgetHub2.API.Base;
-using GadgetHub2.API.Models;
+﻿using GadgetHub.API.Base;
+using GadgetHub.API.Models;
 
-namespace GadgetHub2.API.Repositories;
+namespace GadgetHub.API.Repositories;
 
 public class ProductService
 {
