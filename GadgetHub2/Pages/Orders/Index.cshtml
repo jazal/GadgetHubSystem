@@ -1,15 +1,15 @@
 ﻿@page 
 @using GadgetHub.Web.Pages.Orders
-@model GadgetHub.Web.Pages.Orders.PendingModel
+@model GadgetHub.Web.Pages.Orders.IndexModel
 @{
-    ViewData["Title"] = "Pending Orders";
+    ViewData["Title"] = "Orders";
 }
 
-<h2>Pending Orders</h2>
+<h2>Orders</h2>
 
 @if (!Model.Orders.Any())
 {
-    <p>No pending orders.</p>
+    <p>No orders.</p>
 }
 else
 {

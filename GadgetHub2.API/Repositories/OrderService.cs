@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GadgetHub.API.Base;
+using GadgetHub.API.Extensions;
 using GadgetHub.API.Models;
 using GadgetHub.Dtos;
 using GadgetHub.Dtos.Enums;
@@ -48,6 +49,57 @@ public class OrderService
             OrderId = order.Id,
             CustomerId = order.CustomerId,
         };
+    }
+
+    public async Task<List<CustomerOrderDto>> GetOrders(FilterOrderDto input)
+    {
+        var orders = await (
+            from order in _repo.GetAll()
+                .WhereIf(input.OrderId.HasValue, x => x.Id == input.OrderId)
+                .WhereIf(input.CustomerId.HasValue, x => x.CustomerId == input.CustomerId)
+                .WhereIf(input.OrderStatus.HasValue, x => x.OrderStatus == input.OrderStatus)
+
+            join user in _userRepo.GetAll() on order.CustomerId equals user.Id
+
+            //join q in _quoRepo.GetAll() on order.Id equals q.OrderId into quotationGroup
+            //from quotation in quotationGroup.DefaultIfEmpty() // left join
+
+            join q in _quoRepo.GetAll() on order.Id equals q.OrderId into quotationGroup
+
+            select new CustomerOrderDto
+            {
+                OrderId = order.Id,
+                TotalAmount = order.TotalAmount,
+                CreatedOn = order.CreatedOn,
+                OrderStatus = order.OrderStatus,
+                CustomerId = user.Id,
+                CustomerName = user.Name,
+                CustomerEmail = user.Email,
+                OrderItems = order.OrderItems.Select(ot => new OrderItemDto
+                {
+                    Id = ot.Id,
+                    OrderId = ot.Id,
+                    Price = ot.Price,
+                    ProductId = ot.ProductId,
+                    ProductName = ot.ProductName,
+                    Quantity = ot.Quantity
+                }).ToList(),
+                Quotations = quotationGroup.Where(q => q != null)
+                .Select(q => new QuotationDto
+                {
+                    Id = q.Id,
+                    DistributorId = q.DistributorId,
+                    OrderId = q.OrderId,
+                    OrderItemId = q.OrderId,
+                    Price = q.Price,
+                    Quantity = q.Quantity,
+                    EstimatedDeliveryDays = q.EstimatedDeliveryDays,
+                    CreatedOn = q.CreatedOn
+                }).ToList()
+            }
+        ).ToListAsync();
+
+        return orders;
     }
 
     public async Task<List<CustomerOrderDto>> GetPendingOrders()

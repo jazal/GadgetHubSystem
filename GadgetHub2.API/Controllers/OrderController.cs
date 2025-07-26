@@ -23,10 +23,10 @@ public class OrderController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
+    [HttpPost("GetAll")]
+    public async Task<IActionResult> GetAll([FromBody] FilterOrderDto input)
     {
-        var orders = await _orderService.GetAll();
+        var orders = await _orderService.GetOrders(input);
         return Ok(orders);
     }
 
