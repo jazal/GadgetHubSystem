@@ -23,7 +23,7 @@ namespace GadgetHub.Web.Pages.Orders
             var response = await _httpClient.GetAsync($"order/{OrderId}");
 
             if (!response.IsSuccessStatusCode)
-                return RedirectToPage("/Orders/PendingOrders");
+                return RedirectToPage("/Orders/Index");
 
             OrderDetails = await response.Content.ReadFromJsonAsync<List<CustomerOrderDto>>();
             return Page();

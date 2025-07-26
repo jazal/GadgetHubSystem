@@ -1,5 +1,6 @@
 using GadgetHub.API.Base;
 using GadgetHub.API.Data;
+using GadgetHub.API.Distributors;
 using GadgetHub.API.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,8 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddHttpClient<QuotationService>();
 builder.Services.AddScoped<OrderService>();
 
+builder.Services.Configure<List<ExternalApiEndpoint>>(builder.Configuration.GetSection("ExternalApiSettings"));
+builder.Services.AddHttpClient<ExternalApiService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
