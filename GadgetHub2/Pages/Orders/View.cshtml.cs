@@ -65,7 +65,7 @@ namespace GadgetHub.Web.Pages.Orders
             if (response.IsSuccessStatusCode)
             {
                 TempData["Success"] = "Order confirmed successfully!";
-                return RedirectToPage("/Orders/MyOrders");
+                return RedirectToPage("/Pages/Orders");
             }
 
             TempData["Error"] = "Failed to confirm order.";

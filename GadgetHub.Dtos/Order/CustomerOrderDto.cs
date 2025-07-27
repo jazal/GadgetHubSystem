@@ -28,6 +28,12 @@ public class CustomerOrderDto
 
     #endregion
 
+    #region Distributor Confirm
+
+    public DateTime? ConfirmedOn { get; set; }
+
+    #endregion
+
     public DateTime? CreatedOn { get; set; }
 
     public OrderStatus OrderStatus { get; set; }

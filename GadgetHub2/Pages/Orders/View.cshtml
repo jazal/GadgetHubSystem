@@ -20,6 +20,16 @@
         <p><strong>Customer:</strong> @Model.OrderDetails[0].CustomerName</p>
         <p><strong>Email:</strong> @Model.OrderDetails[0].CustomerEmail</p>
         <p><strong>Order Date:</strong> @Model.OrderDetails[0].CreatedOn?.ToShortDateString()</p>
+        <table class="table">
+            <tr>
+                <td class="fw-bold">Distributor</td>
+                <td>@Model.OrderDetails[0].DistributorName</td>
+            </tr>
+            <tr>
+                <td class="fw-bold">Distributor Confirmed on</td>
+                <td>@(Model.OrderDetails[0].ConfirmedOn.HasValue ? Model.OrderDetails[0].ConfirmedOn.Value.ToString("dd MMM yyyy hh:mm tt") : "-")</td>
+            </tr>
+        </table>
         <p><strong>Status:</strong> 
             @if (Model.OrderDetails[0].OrderStatus == GadgetHub.Dtos.Enums.OrderStatus.Completed)
             {
@@ -89,6 +99,7 @@
                             <form method="post" asp-page-handler="ConfirmQuotation">
                                 <input type="hidden" name="SelectedQuotationId" value="@quotation.Id" />
                                 <input type="hidden" name="SelectedApiUrlId" value="@quotation.ApiUrl" />
+                                <input type="hidden" name="SelectedDistributorName" value="@quotation.CompanyName" />
                                 <input type="hidden" name="TotalAmount" value="@quotation.TotalAmount" />
 
                                 @* Include line-level items as hidden inputs *@
@@ -99,8 +110,10 @@
                                     <input type="hidden" name="QuotationItems[@i].Quantity" value="@item.Quantity" />
                                     <input type="hidden" name="QuotationItems[@i].Price" value="@item.Price" />
                                 }
-
-                                <button type="submit" class="btn btn-sm btn-success">Confirm Order</button>
+                                @if (!Model.OrderDetails[0].QuotationId.HasValue)
+                                {
+                                    <button type="submit" class="btn btn-sm btn-success">Confirm Order</button>
+                                }
                             </form>
 
                             <!-- Display line-level items -->
@@ -132,7 +145,10 @@
         </div>
     }
 
-
+    @if (Model.OrderDetails[0].QuotationId.HasValue)
+    {
+        <h1 class="text-success text-center">This order is confirmed to @Model.OrderDetails[0].DistributorName !</h1>
+    }
 
 }
 else

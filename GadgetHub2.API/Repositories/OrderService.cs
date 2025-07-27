@@ -54,6 +54,14 @@ public class OrderService
             {
                 OrderId = order.Id,
                 TotalAmount = order.TotalAmount,
+
+                QuotationId = order.QuotationId,
+                DistributorName = order.DistributorName,
+                ApiUrl = order.ApiUrl,
+                AssignedOn = order.AssignedOn,
+
+                ConfirmedOn = order.ConfirmedOn,
+
                 CreatedOn = order.CreatedOn,
                 OrderStatus = order.OrderStatus,
                 CustomerId = user.Id,
@@ -84,6 +92,14 @@ public class OrderService
             {
                 OrderId = order.Id,
                 TotalAmount = order.TotalAmount,
+
+                QuotationId = order.QuotationId,
+                DistributorName = order.DistributorName,
+                ApiUrl = order.ApiUrl,
+                AssignedOn = order.AssignedOn,
+
+                ConfirmedOn = order.ConfirmedOn,
+
                 CreatedOn = order.CreatedOn,
                 OrderStatus = order.OrderStatus,
                 CustomerId = user.Id,
@@ -106,6 +122,14 @@ public class OrderService
             {
                 OrderId = order.Id,
                 TotalAmount = order.TotalAmount,
+
+                QuotationId = order.QuotationId,
+                DistributorName = order.DistributorName,
+                ApiUrl = order.ApiUrl,
+                AssignedOn = order.AssignedOn,
+
+                ConfirmedOn = order.ConfirmedOn,
+
                 CreatedOn = order.CreatedOn,
                 OrderStatus = order.OrderStatus,
                 CustomerId = user.Id,

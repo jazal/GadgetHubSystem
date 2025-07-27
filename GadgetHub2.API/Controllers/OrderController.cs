@@ -81,4 +81,17 @@ public class OrderController : ControllerBase
         var pendingOrders = await _orderService.GetPendingOrders();
         return Ok(pendingOrders);
     }
+
+    [HttpPut("ConfirmOrderByDistributor/{orderId}")]
+    public async Task<IActionResult> GetPendingOrders(int orderId)
+    {
+        var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
+
+        order.ConfirmedOn = DateTime.Now;
+
+        _context.Update(order);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { order.Id });
+    }
 }

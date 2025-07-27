@@ -24,6 +24,12 @@ public class Order
 
     #endregion
 
+    #region Distributor Confirm
+
+    public DateTime? ConfirmedOn { get; set; }
+
+    #endregion
+
     public OrderStatus OrderStatus { get; set; }
 
     public List<OrderItem> OrderItems { get; set; }
