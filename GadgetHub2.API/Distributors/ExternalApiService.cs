@@ -1,5 +1,4 @@
 ﻿using GadgetHub.Dtos.Distributors;
-using GadgetHub.Dtos.Order;
 using Microsoft.Extensions.Options;
 
 namespace GadgetHub.API.Distributors;

@@ -9,6 +9,4 @@ public class FilterOrderDto
     public int? CustomerId { get; set; }
 
     public OrderStatus? OrderStatus { get; set; }
-
-    public bool IsDistributionQoutations { get; set; } = false;
 }

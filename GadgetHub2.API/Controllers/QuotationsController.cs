@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using GadgetHub.API.Distributors;
 using GadgetHub.API.Repositories;
 using GadgetHub.Dtos;
+using GadgetHub.Dtos.Distributors;
 using GadgetHub.Dtos.Quotations;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,16 +10,31 @@ namespace GadgetHub.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class QuotationController : ControllerBase
+public class QuotationsController : ControllerBase
 {
     private readonly QuotationService _service;
     private readonly IMapper _mapper;
+    private readonly ExternalApiService _externalApiService;
 
-    public QuotationController(QuotationService quotationService, IMapper mapper)
+    public QuotationsController(
+        QuotationService quotationService,
+        IMapper mapper,
+        ExternalApiService externalApiService)
     {
         _service = quotationService;
         _mapper = mapper;
+        _externalApiService = externalApiService;
     }
+
+    [HttpGet("GetAllByOrderId/{orderId}")]
+    public async Task<IActionResult> GetAllByOrderId(int orderId)
+    {
+        var datas = await _externalApiService.GetAllOrdersFromExternalApisAsync(new FilterQuotationDto { GadgetHubOrderId = orderId });
+
+        return Ok(datas);
+    }
+
+    #region Ne NEED REMOVE
 
     [HttpGet("GetByOrderId")]
     public async Task<IActionResult> GetByOrderId(int orderId)
@@ -58,4 +75,6 @@ public class QuotationController : ControllerBase
 
         return Ok(quotations);
     }
+
+    #endregion
 }

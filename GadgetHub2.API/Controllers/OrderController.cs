@@ -1,7 +1,5 @@
-﻿using GadgetHub.API.Distributors;
-using GadgetHub.API.Repositories;
+﻿using GadgetHub.API.Repositories;
 using GadgetHub.Dtos;
-using GadgetHub.Dtos.Distributors;
 using GadgetHub.Dtos.Order;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,12 +10,10 @@ namespace GadgetHub.API.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly OrderService _orderService;
-    private readonly ExternalApiService _externalApiService;
 
-    public OrderController(OrderService orderService, ExternalApiService externalApiService)
+    public OrderController(OrderService orderService)
     {
         _orderService = orderService;
-        _externalApiService = externalApiService;
     }
 
     [HttpPost("PlaceOrder")]
@@ -31,12 +27,6 @@ public class OrderController : ControllerBase
     public async Task<IActionResult> GetAll([FromBody] FilterOrderDto input)
     {
         var orders = await _orderService.GetOrders(input);
-
-        if (input.IsDistributionQoutations == true) {
-
-            var data = await _externalApiService.GetAllOrdersFromExternalApisAsync(new FilterQuotationDto { GadgetHubOrderId = input.OrderId });
-
-        }
 
         return Ok(orders);
     }

@@ -24,12 +24,12 @@ public class IndexModel : PageModel
 
     public async Task OnGetAsync()
     {
-        var request = new QuotationRequest
+        var request = new Dtos.QuotationRequestDto
         {
             ProductId = ProductId,
             Quantity = Quantity
         };
 
-        Quotations = await _quotationService.GetQuotationsAsync(request);
+        //Quotations = await _quotationService.GetQuotationsAsync(request);
     }
 }

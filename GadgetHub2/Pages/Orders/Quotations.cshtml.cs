@@ -48,7 +48,7 @@ namespace GadgetHub.Web.Pages.Orders
                     }
                 };
 
-                await _orderService.CreateOrderAsync(order);
+                //await _orderService.CreateOrderAsync(order);
             }
 
             return RedirectToPage("/Orders/MyOrders");

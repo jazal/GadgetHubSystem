@@ -6,6 +6,10 @@ public class QuotationsViewModel
 {
     public int Id { get; set; }
 
+    public string? CompanyName { get; set; }
+
+    public string? ApiUrl { get; set; }
+
     public int? CustomerId { get; set; }
 
     public string? CustomerName { get; set; }

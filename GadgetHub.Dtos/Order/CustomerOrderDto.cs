@@ -22,6 +22,9 @@ public class CustomerOrderDto
 
     public List<OrderItemDto> OrderItems { get; set; }
 
+    /// <summary>
+    /// REMOVE
+    /// </summary>
     public List<QuotationDto> Quotations { get; set; }
 
     public CustomerOrderDto()

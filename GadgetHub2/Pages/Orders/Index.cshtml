@@ -19,6 +19,7 @@ else
                 <th>Order ID</th>
                 <th>Customer ID</th>
                 <th>Total Amount</th>
+                <th>Status</th>
                 <th>Created On</th>
                 <th>View</th>
             </tr>
@@ -29,7 +30,8 @@ else
                 <tr>
                     <td>@order.OrderId</td>
                     <td>@order.CustomerName</td>
-                    <td>@order.TotalAmount</td>
+                    <th>Total Amount</th>
+                    <td>@order.OrderStatus</td>
                     <td>@order.CreatedOn?.ToString("dd MMM yyyy hh:mm tt") </td>
                     <td>
                         <a asp-page="/Orders/View" asp-route-OrderId="@order.OrderId" class="btn btn-info">View Details</a>

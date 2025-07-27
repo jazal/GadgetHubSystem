@@ -9,6 +9,7 @@ namespace GadgetHub.Dtos.Order
         public int CustomerId { get; set; }
 
         public decimal TotalAmount { get; set; }
+
         public List<OrderItemDto> OrderItems { get; set; }
     }
 }
