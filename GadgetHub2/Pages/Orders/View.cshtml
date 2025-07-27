@@ -13,31 +13,31 @@
 
 <h2>Order Details - #@Model.OrderId</h2>
 
-@if (Model.OrderDetails != null && Model.OrderDetails.Any())
+@if (Model.Order != null)
 {
-
     <div>
-        <p><strong>Customer:</strong> @Model.OrderDetails[0].CustomerName</p>
-        <p><strong>Email:</strong> @Model.OrderDetails[0].CustomerEmail</p>
-        <p><strong>Order Date:</strong> @Model.OrderDetails[0].CreatedOn?.ToShortDateString()</p>
+        <p><strong>Customer:</strong> @Model.Order.CustomerName</p>
+        <p><strong>Email:</strong> @Model.Order.CustomerEmail</p>
+        <p><strong>Order Date:</strong> @Model.Order.CreatedOn?.ToShortDateString()</p>
         <table class="table">
             <tr>
                 <td class="fw-bold">Distributor</td>
-                <td>@Model.OrderDetails[0].DistributorName</td>
+                <td>@Model.Order.DistributorName</td>
             </tr>
             <tr>
                 <td class="fw-bold">Distributor Confirmed on</td>
-                <td>@(Model.OrderDetails[0].ConfirmedOn.HasValue ? Model.OrderDetails[0].ConfirmedOn.Value.ToString("dd MMM yyyy hh:mm tt") : "-")</td>
+                <td>@(Model.Order.ConfirmedOn.HasValue ? Model.Order.ConfirmedOn.Value.ToString("dd MMM yyyy hh:mm tt") : "-")</td>
             </tr>
         </table>
-        <p><strong>Status:</strong> 
-            @if (Model.OrderDetails[0].OrderStatus == GadgetHub.Dtos.Enums.OrderStatus.Completed)
+        <p>
+            <strong>Status:</strong>
+            @if (Model.Order.OrderStatus == GadgetHub.Dtos.Enums.OrderStatus.Completed)
             {
-                <span class="text-success fw-bold">@Model.OrderDetails[0].OrderStatus</span>
+                <span class="text-success fw-bold">@Model.Order.OrderStatus</span>
             }
             else
             {
-                <span class="text-warning fw-bold">@Model.OrderDetails[0].OrderStatus</span>
+                <span class="text-warning fw-bold">@Model.Order.OrderStatus</span>
             }
         </p>
     </div>
@@ -54,9 +54,9 @@
             </tr>
         </thead>
         <tbody>
-            @for (int i = 0; i < Model.OrderDetails[0].OrderItems.Count(); i++)
+            @for (int i = 0; i < Model.Order.OrderItems.Count(); i++)
             {
-                var item = Model.OrderDetails[0].OrderItems[i];
+                var item = Model.Order.OrderItems[i];
                 @* var qou = quotations.Where(x => x.OrderItemId == item.Id).FirstOrDefault(); *@
                 <tr>
                     <td>@item.ProductName</td>
@@ -110,7 +110,7 @@
                                     <input type="hidden" name="QuotationItems[@i].Quantity" value="@item.Quantity" />
                                     <input type="hidden" name="QuotationItems[@i].Price" value="@item.Price" />
                                 }
-                                @if (!Model.OrderDetails[0].QuotationId.HasValue)
+                                @if (!Model.Order.QuotationId.HasValue)
                                 {
                                     <button type="submit" class="btn btn-sm btn-success">Confirm Order</button>
                                 }
@@ -145,9 +145,9 @@
         </div>
     }
 
-    @if (Model.OrderDetails[0].QuotationId.HasValue)
+    @if (Model.Order.QuotationId.HasValue)
     {
-        <h1 class="text-success text-center">This order is confirmed to @Model.OrderDetails[0].DistributorName !</h1>
+        <h1 class="text-success text-center">This order is confirmed to @Model.Order.DistributorName !</h1>
     }
 
 }

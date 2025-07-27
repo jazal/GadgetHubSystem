@@ -31,7 +31,7 @@ namespace GadgetHub.Web.Pages.Orders
         [BindProperty]
         public List<ConfirmedQuotationItemDto> QuotationItems { get; set; } = new();
 
-        public List<CustomerOrderDto> OrderDetails { get; set; }
+        public CustomerOrderDto Order { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -40,7 +40,9 @@ namespace GadgetHub.Web.Pages.Orders
             if (!response.IsSuccessStatusCode)
                 return RedirectToPage("/Orders/Index");
 
-            OrderDetails = await response.Content.ReadFromJsonAsync<List<CustomerOrderDto>>();
+            var OrderDetails = await response.Content.ReadFromJsonAsync<List<CustomerOrderDto>>();
+
+            Order = OrderDetails?.FirstOrDefault();
 
             await GetDistributorQuoutations();
 
