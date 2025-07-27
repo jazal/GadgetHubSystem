@@ -4,6 +4,7 @@ using GadgetHub.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GadgetHub2.API.Migrations
 {
     [DbContext(typeof(GadgetHubContext))]
-    partial class GadgetHubContextModelSnapshot : ModelSnapshot
+    [Migration("20250727084525_RemoveQuotationModel")]
+    partial class RemoveQuotationModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
