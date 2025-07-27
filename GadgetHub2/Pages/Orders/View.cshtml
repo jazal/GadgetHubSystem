@@ -20,7 +20,16 @@
         <p><strong>Customer:</strong> @Model.OrderDetails[0].CustomerName</p>
         <p><strong>Email:</strong> @Model.OrderDetails[0].CustomerEmail</p>
         <p><strong>Order Date:</strong> @Model.OrderDetails[0].CreatedOn?.ToShortDateString()</p>
-        <p><strong>Status:</strong> @Model.OrderDetails[0].OrderStatus</p>
+        <p><strong>Status:</strong> 
+            @if (Model.OrderDetails[0].OrderStatus == GadgetHub.Dtos.Enums.OrderStatus.Completed)
+            {
+                <span class="text-success fw-bold">@Model.OrderDetails[0].OrderStatus</span>
+            }
+            else
+            {
+                <span class="text-warning fw-bold">@Model.OrderDetails[0].OrderStatus</span>
+            }
+        </p>
     </div>
 
     <table class="table">
