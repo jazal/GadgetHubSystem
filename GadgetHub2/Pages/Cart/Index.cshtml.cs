@@ -45,7 +45,7 @@ namespace GadgetHub.Web.Pages.Cart
             return RedirectToPage();
         }
 
-        public async Task<IActionResult> OnPostCheckoutAsync()
+        public async Task<IActionResult> OnPostCheckout()
         {
             int? customerId = null;
 
@@ -100,16 +100,16 @@ namespace GadgetHub.Web.Pages.Cart
         }
 
         // connect Cart Checkout → oders/Quotations Page.
-        public IActionResult OnPostCheckout()
-        {
-            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart");
-            if (cart == null || !cart.Any())
-                return RedirectToPage();
+        //public IActionResult OnPostCheckout()
+        //{
+        //    var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart");
+        //    if (cart == null || !cart.Any())
+        //        return RedirectToPage();
 
-            // For simplicity, take first product for now
-            var firstItem = cart.First();
+        //    // For simplicity, take first product for now
+        //    var firstItem = cart.First();
 
-            return RedirectToPage("/Orders/Quotations", new { productId = firstItem.ProductId, quantity = firstItem.Quantity });
-        }
+        //    return RedirectToPage("/Orders/Quotations", new { productId = firstItem.ProductId, quantity = firstItem.Quantity });
+        //}
     }
 }

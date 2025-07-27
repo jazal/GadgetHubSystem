@@ -28,7 +28,7 @@ public class OrderService
     {
         var order = _mapper.Map<Order>(request);
         order.CreatedOn = DateTime.Now;
-        // order.TotalAmount ??= 0m;
+        order.TotalAmount = request.OrderItems.Select(x => x.Price * x.Quantity).Sum();
 
         await _context.Orders.AddAsync(order);
         await _context.SaveChangesAsync();
