@@ -8,6 +8,7 @@ using GadgetHub.Dtos.Order;
 using GadgetHub.Dtos.OrderItems;
 using GadgetHub.Dtos.Quotations;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace GadgetHub.API.Repositories;
 

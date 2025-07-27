@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using GadgetHub.API.Data;
 using GadgetHub.API.Distributors;
 using GadgetHub.API.Repositories;
 using GadgetHub.Dtos;
 using GadgetHub.Dtos.Distributors;
 using GadgetHub.Dtos.Quotations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GadgetHub.API.Controllers;
 
@@ -12,18 +14,25 @@ namespace GadgetHub.API.Controllers;
 [ApiController]
 public class QuotationsController : ControllerBase
 {
-    private readonly QuotationService _service;
+    private readonly QuotationService _qoutationService;
+    private readonly OrderService _orderService;
     private readonly IMapper _mapper;
     private readonly ExternalApiService _externalApiService;
+    private readonly GadgetHubContext _context;
 
     public QuotationsController(
         QuotationService quotationService,
+        OrderService orderService,
         IMapper mapper,
-        ExternalApiService externalApiService)
+        ExternalApiService externalApiService,
+        GadgetHubContext context
+        )
     {
-        _service = quotationService;
+        _qoutationService = quotationService;
+        _orderService = orderService;
         _mapper = mapper;
         _externalApiService = externalApiService;
+        _context = context;
     }
 
     [HttpGet("GetAllByOrderId/{orderId}")]
@@ -34,12 +43,48 @@ public class QuotationsController : ControllerBase
         return Ok(datas);
     }
 
+    [HttpPost("AssignQuotations")]
+    public async Task<IActionResult> Create(AssignQuotationDto input)
+    {
+        // 1. Change status in Order 
+        var order = await _context.Orders.Include(x => x.OrderItems).FirstOrDefaultAsync(x => x.Id == input.OrderId);
+
+        if (order == null) return NotFound("Order not found!");
+
+        order.OrderStatus = Dtos.Enums.OrderStatus.Completed;
+        order.QuotationId = input.QuotationId;
+        order.DistributorName = input.DistributorName;
+        order.ApiUrl = input.ApiUrlId;
+        order.AssignedOn = DateTime.Now;
+
+        foreach (var item in input.Items)
+        {
+            var orderItem = order.OrderItems.FirstOrDefault(x => x.ProductName == item.ProductName);
+
+            if (orderItem is not null)
+            {
+                orderItem.Price = item.Price;
+                orderItem.Quantity = item.Quantity;
+            }
+        }
+
+        order.TotalAmount = order.OrderItems.Select(x => x.Quantity * x.Price).Sum();
+
+        await _orderService.Update(order);
+
+        // 2. Change status in Dis Qoutations 
+        // TODO
+
+
+        return Ok();
+    }
+
     #region Ne NEED REMOVE
 
     [HttpGet("GetByOrderId")]
     public async Task<IActionResult> GetByOrderId(int orderId)
     {
-        var qoutations = _service.GetAll().Result
+        var qoutations = _qoutationService.GetAll().Result
             .Where(x => x.OrderId == orderId)
             .Select(q => new QuotationDto
             {
@@ -59,14 +104,14 @@ public class QuotationsController : ControllerBase
     [HttpPost("CreateQuotation")]
     public async Task<IActionResult> Create(List<CreateQuotationDto> dto)
     {
-        await _service.AddRange(dto);
+        await _qoutationService.AddRange(dto);
         return Ok();
     }
 
     [HttpPost("getquotations")]
     public async Task<IActionResult> GetQuotations([FromBody] QuotationRequestDto request)
     {
-        var quotations = await _service.GetQuotationsAsync(request);
+        var quotations = await _qoutationService.GetQuotationsAsync(request);
 
         if (quotations == null || !quotations.Any())
         {

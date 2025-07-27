@@ -1,5 +1,6 @@
 using GadgetHub.Dtos.Distributors;
 using GadgetHub.Dtos.Order;
+using GadgetHub.Dtos.Quotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -22,7 +23,13 @@ namespace GadgetHub.Web.Pages.Orders
         public int SelectedQuotationId { get; set; }
 
         [BindProperty]
-        public int SelectedApiUrlId { get; set; }
+        public string SelectedApiUrlId { get; set; }
+
+        [BindProperty]
+        public string SelectedDistributorName { get; set; }
+
+        [BindProperty]
+        public List<ConfirmedQuotationItemDto> QuotationItems { get; set; } = new();
 
         public List<CustomerOrderDto> OrderDetails { get; set; }
 
@@ -43,23 +50,25 @@ namespace GadgetHub.Web.Pages.Orders
         public async Task<IActionResult> OnPostConfirmQuotation()
         {
             // Example: Call API to place order using quotation details
-            var request = new
+            var request = new AssignQuotationDto
             {
-                OrderId,
-                SelectedQuotationId,
-                SelectedApiUrlId
+                OrderId = OrderId,
+                QuotationId = SelectedQuotationId,
+                ApiUrlId = SelectedApiUrlId,
+                DistributorName = SelectedDistributorName,
+                Items = QuotationItems
             };
 
-            //// Call your Order API
-            //var response = await _httpClient.PostAsJsonAsync("api/Order/PlaceOrder", request);
+            // Call your Quotations API
+            var response = await _httpClient.PostAsJsonAsync("Quotations/AssignQuotations", request);
 
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    TempData["Success"] = "Order confirmed successfully!";
-            //    return RedirectToPage("/Orders/MyOrders");
-            //}
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["Success"] = "Order confirmed successfully!";
+                return RedirectToPage("/Orders/MyOrders");
+            }
 
-            //TempData["Error"] = "Failed to confirm order.";
+            TempData["Error"] = "Failed to confirm order.";
             return Page();
         }
 

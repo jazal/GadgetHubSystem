@@ -15,36 +15,36 @@
 
 @if (Model.OrderDetails != null && Model.OrderDetails.Any())
 {
-    <form method="post">
-        <div>
-            <p><strong>Customer:</strong> @Model.OrderDetails[0].CustomerName</p>
-            <p><strong>Email:</strong> @Model.OrderDetails[0].CustomerEmail</p>
-            <p><strong>Order Date:</strong> @Model.OrderDetails[0].CreatedOn?.ToShortDateString()</p>
-            <p><strong>Status:</strong> @Model.OrderDetails[0].OrderStatus</p>
-        </div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Qty</th>
-                    <th> Price</th>
-                    <th>Total</th>
-                    @* <th class="bg-warning">Price</th>
+    <div>
+        <p><strong>Customer:</strong> @Model.OrderDetails[0].CustomerName</p>
+        <p><strong>Email:</strong> @Model.OrderDetails[0].CustomerEmail</p>
+        <p><strong>Order Date:</strong> @Model.OrderDetails[0].CreatedOn?.ToShortDateString()</p>
+        <p><strong>Status:</strong> @Model.OrderDetails[0].OrderStatus</p>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th> Price</th>
+                <th>Total</th>
+                @* <th class="bg-warning">Price</th>
                     <th class="bg-warning">Quantity</th> *@
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < Model.OrderDetails[0].OrderItems.Count(); i++)
-                {
-                    var item = Model.OrderDetails[0].OrderItems[i];
-                    @* var qou = quotations.Where(x => x.OrderItemId == item.Id).FirstOrDefault(); *@
-                    <tr>
-                        <td>@item.ProductName</td>
-                        <td>@item.Quantity</td>
-                        <td>@item.Price</td>
-                        <td>@(item.Quantity * item.Price)</td>
-                        @* <td>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.OrderDetails[0].OrderItems.Count(); i++)
+            {
+                var item = Model.OrderDetails[0].OrderItems[i];
+                @* var qou = quotations.Where(x => x.OrderItemId == item.Id).FirstOrDefault(); *@
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price</td>
+                    <td>@(item.Quantity * item.Price)</td>
+                    @* <td>
                             <input type="number" name="QuotationInputs[@i].DistributorId" value="@distributorId" />
                             <input type="number" name="QuotationInputs[@i].OrderId" value="@Model.OrderId" />
                             <input type="number" name="QuotationInputs[@i].OrderItemId" value="@item.Id" />
@@ -54,77 +54,77 @@
                         <td>
                             <input type="number" name="QuotationInputs[@i].Quantity" value="@qou?.Quantity ?? 0" />
                         </td> *@
-                    </tr>
-                }
-            </tbody>
-        </table>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-        @if (quotations != null && quotations.Any())
-        {
-            <div class="row">
-                @foreach (var quotation in quotations)
-                {
-                    <div class="col-md-6 mb-4">
-                        <div class="card shadow-sm">
-                            <!-- Card Header -->
-                            <div class="card-header bg-primary text-white">
-                                @* <h5 class="mb-0">Order #@quotation.GadgetHubOrderId - @quotation.CustomerName</h5> *@
-                                <h5 class="mb-0">@quotation.CompanyName</h5>
-                                <small>Estimated Delivery: @(quotation.EstimatedDeliveryDateTime?.ToString("yyyy-MM-dd") ?? "N/A")</small>
-                            </div>
+    @if (quotations != null && quotations.Any())
+    {
+        <div class="row">
+            @foreach (var quotation in quotations)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm">
+                        <!-- Card Header -->
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">@quotation.CompanyName</h5>
+                            <small>Estimated Delivery: @(quotation.EstimatedDeliveryDateTime?.ToString("yyyy-MM-dd") ?? "N/A")</small>
+                        </div>
 
-                            <input type="text" name="SelectedQuotationId" value="@quotation.Id" />
-                            <input type="text" name="SelectedApiUrlId" value="@quotation.ApiUrl" />
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <p><strong>Total Amount:</strong> @quotation.TotalAmount</p>
 
-                            <!-- Card Body -->
-                            <div class="card-body">
-                                <p><strong>Total Amount:</strong> @quotation.TotalAmount</p>
+                            <!-- Wrap only this quotation in a form -->
+                            <form method="post" asp-page-handler="ConfirmQuotation">
+                                <input type="hidden" name="SelectedQuotationId" value="@quotation.Id" />
+                                <input type="hidden" name="SelectedApiUrlId" value="@quotation.ApiUrl" />
+                                <input type="hidden" name="TotalAmount" value="@quotation.TotalAmount" />
 
-                                <button type="submit" class="btn btn-sm btn-success mb-2">Confirm Order</button>
-
-                                <!-- Line Level Details -->
-                                @if (quotation.QuotationItems != null && quotation.QuotationItems.Any())
+                                @* Include line-level items as hidden inputs *@
+                                @for (int i = 0; i < quotation.QuotationItems.Count; i++)
                                 {
-                                    <table class="table table-sm table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Product</th>
-                                                <th>Qty</th>
-                                                <th>Price</th>
-                                                <th>Subtotal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var item in quotation.QuotationItems)
-                                            {
-                                                <tr>
-                                                    <td>@item.ProductName</td>
-                                                    <td>@item.Quantity</td>
-                                                    <td>@item.Price</td>
-                                                    <td>@(item.Quantity * item.Price)</td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
+                                    var item = quotation.QuotationItems[i];
+                                    <input type="hidden" name="QuotationItems[@i].ProductName" value="@item.ProductName" />
+                                    <input type="hidden" name="QuotationItems[@i].Quantity" value="@item.Quantity" />
+                                    <input type="hidden" name="QuotationItems[@i].Price" value="@item.Price" />
+                                }
 
-                                }
-                                else
-                                {
-                                    <p>No items found.</p>
-                                }
-                            </div>
+                                <button type="submit" class="btn btn-sm btn-success">Confirm Order</button>
+                            </form>
+
+                            <!-- Display line-level items -->
+                            <table class="table table-sm table-bordered mt-3">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Qty</th>
+                                        <th>Price</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in quotation.QuotationItems)
+                                    {
+                                        <tr>
+                                            <td>@item.ProductName</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@item.Price</td>
+                                            <td>@(item.Quantity * item.Price)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                }
-            </div>
-        }
-        else
-        {
-            <p>No quotations available.</p>
-        }
+                </div>
+            }
+        </div>
+    }
 
-        @* <button type="submit">Submit</button> *@
-    </form>
+
+
 }
 else
 {
