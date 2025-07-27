@@ -16,6 +16,8 @@ builder.Services.AddSession(options =>
 
 //HttpClient Services 
 
+builder.Services.AddHttpClient<QuotationService>();
+
 builder.Services.AddHttpClient("GadgetHubAPI", client =>
 {
     client.BaseAddress = new Uri("https://localhost:7003/api/"); //  API base URL

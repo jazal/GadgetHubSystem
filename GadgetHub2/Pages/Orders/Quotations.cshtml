@@ -1,0 +1,37 @@
+﻿@page
+@model GadgetHub.Web.Pages.Orders.QuotationsModel
+
+<h2>Quotation Comparison</h2>
+
+@if (!Model.Quotations.Any())
+{
+    <p>No quotations available.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Distributor</th>
+                <th>Price</th>
+                <th>Available Qty</th>
+                <th>Delivery (Days)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var q in Model.Quotations)
+            {
+                <tr>
+                    <td>@q.DistributorName</td>
+                    <td>@q.Price.ToString("C")</td>
+                    <td>@q.AvailableQuantity</td>
+                    <td>@q.EstimatedDeliveryDays</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <form method="post">
+        <button type="submit" class="btn btn-primary">Select Best Option</button>
+    </form>
+}

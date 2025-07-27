@@ -1,0 +1,17 @@
+﻿@page "{id:int}"
+@model GadgetHub2.WEB.Pages.Products.DetailsModel
+
+<h2>@Model.Product.Name</h2>
+
+<div class="card p-3 shadow-sm" style="max-width: 500px;">
+    <img src="https://via.placeholder.com/400x200" class="img-fluid mb-3" alt="@Model.Product.Name" />
+    <p><strong>Description:</strong> @Model.Product.Description</p>
+    <p><strong>Price:</strong> @Model.Product.Price?.ToString("C")</p>
+
+    <form method="post">
+        <input type="hidden" name="ProductId" value="@Model.Product.Id" />
+        <button type="submit" class="btn btn-primary">Add to Cart</button>
+    </form>
+
+    <a asp-page="/Index" class="btn btn-secondary mt-3">Back to Products</a>
+</div>

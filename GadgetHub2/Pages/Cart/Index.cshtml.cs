@@ -1,7 +1,6 @@
 ﻿using GadgetHub.Dtos.Users;
 using GadgetHub.Web.Models;
 using GadgetHub.Web.Services;
-using GadgetHub.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -98,6 +97,19 @@ namespace GadgetHub.Web.Pages.Cart
 
             Message = "❌ Failed to create order. Please try again.";
             return RedirectToPage();
+        }
+
+        // connect Cart Checkout → oders/Quotations Page.
+        public IActionResult OnPostCheckout()
+        {
+            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart");
+            if (cart == null || !cart.Any())
+                return RedirectToPage();
+
+            // For simplicity, take first product for now
+            var firstItem = cart.First();
+
+            return RedirectToPage("/Orders/Quotations", new { productId = firstItem.ProductId, quantity = firstItem.Quantity });
         }
     }
 }

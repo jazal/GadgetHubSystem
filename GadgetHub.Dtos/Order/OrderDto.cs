@@ -1,4 +1,6 @@
-﻿namespace GadgetHub.Dtos.Order
+﻿using GadgetHub.Dtos.OrderItems;
+
+namespace GadgetHub.Dtos.Order
 {
     public class OrderDto
     {
@@ -7,5 +9,6 @@
         public int CustomerId { get; set; }
 
         public decimal TotalAmount { get; set; }
+        public List<OrderItemDto> OrderItems { get; set; }
     }
 }

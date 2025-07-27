@@ -28,6 +28,11 @@ namespace GadgetHub.Web.Services
             return allOrders?.Where(o => o.CustomerId == customerId).ToList() ?? new List<OrderViewModels>();
         }
 
+        internal async Task CreateOrderAsync(Dtos.Order.OrderDto order)
+        {
+            throw new NotImplementedException();
+        }
+
         internal async Task<OrderDetailsViewModel> GetOrderByIdAsync(int orderId)
         {
             throw new NotImplementedException();
