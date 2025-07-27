@@ -1,7 +1,9 @@
-﻿using GadgetHub.API.Repositories;
+﻿using GadgetHub.API.Data;
+using GadgetHub.API.Repositories;
 using GadgetHub.Dtos;
 using GadgetHub.Dtos.Order;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GadgetHub.API.Controllers;
 
@@ -9,10 +11,14 @@ namespace GadgetHub.API.Controllers;
 [ApiController]
 public class OrderController : ControllerBase
 {
+    private readonly GadgetHubContext _context;
     private readonly OrderService _orderService;
 
-    public OrderController(OrderService orderService)
+    public OrderController(
+        GadgetHubContext context, 
+        OrderService orderService)
     {
+        _context = context;
         _orderService = orderService;
     }
 
@@ -44,14 +50,15 @@ public class OrderController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] OrderResponseDto dto)
     {
-        var existingOrder = await _orderService.GetById(id);
+        var existingOrder = await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
         if (existingOrder == null)
             return NotFound();
 
         // Example: only updating TotalAmount
         //existingOrder.TotalAmount = dto.TotalAmount;
 
-        await _orderService.Update(existingOrder);
+        _context.Orders.Update(existingOrder);
+        await _context.SaveChangesAsync();
 
         return Ok(existingOrder);
     }
@@ -59,11 +66,12 @@ public class OrderController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var order = await _orderService.GetById(id);
+        var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
         if (order == null)
             return NotFound();
 
-        await _orderService.Delete(id);
+        _context.Orders.Remove(order);
+        await _context.SaveChangesAsync();
         return Ok();
     }
 

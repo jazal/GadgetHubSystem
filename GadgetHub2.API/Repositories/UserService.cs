@@ -1,5 +1,4 @@
-﻿using GadgetHub.API.Base;
-using GadgetHub.API.Models;
+﻿using GadgetHub.API.Data;
 using GadgetHub.Dtos.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,22 +6,16 @@ namespace GadgetHub.API.Repositories;
 
 public class UserService
 {
-    private readonly IBaseRepository<User> _repo;
+    private readonly GadgetHubContext _context;
 
-    public UserService(IBaseRepository<User> repo)
+    public UserService(GadgetHubContext context)
     {
-        _repo = repo;
+        _context = context;
     }
-
-    public Task<List<User>> GetAll() => _repo.GetAllAsync();
-    public Task<User?> GetById(int id) => _repo.GetByIdAsync(id);
-    public Task Add(User user) => _repo.AddAsync(user);
-    public Task Update(User user) => _repo.UpdateAsync(user);
-    public Task Delete(int id) => _repo.DeleteAsync(id);
 
     public async Task<UserDto> Login(LoginDto input)
     {
-        var user = await _repo.GetAll()
+        var user = await _context.Users
             .Where(x => x.Email.Equals(input.Email) && x.Password == input.Password)
             .FirstOrDefaultAsync();
 

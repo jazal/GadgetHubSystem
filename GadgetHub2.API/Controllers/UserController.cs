@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using GadgetHub.API.Data;
 using GadgetHub.API.Models;
 using GadgetHub.API.Repositories;
 using GadgetHub.Dtos.Users;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GadgetHub.API.Controllers;
 
@@ -10,19 +12,23 @@ namespace GadgetHub.API.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly UserService _repository;
+    private readonly GadgetHubContext _context;
+    private readonly UserService _userRepo;
     private readonly IMapper _mapper;
 
-    public UserController(UserService repository, IMapper mapper)
+    public UserController(
+        GadgetHubContext context,
+        UserService repository, IMapper mapper)
     {
-        _repository = repository;
+        _context = context;
+        _userRepo = repository;
         _mapper = mapper;
     }
 
     [HttpPost("Login")]
     public async Task<IActionResult> Login(LoginDto input)
     {
-        var user = await _repository.Login(input);
+        var user = await _userRepo.Login(input);
         if (user is null) return Unauthorized();
 
         return Ok(user);
@@ -32,15 +38,15 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var distributors = await _repository.GetAll();
-        return Ok(_mapper.Map<List<UserDto>>(distributors));
+        var users = await _context.Users.ToListAsync();
+        return Ok(_mapper.Map<List<UserDto>>(users));
     }
 
     // GET: api/User/{id}
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
-        var user = await _repository.GetById(id);
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
         if (user == null) return NotFound();
         return Ok(_mapper.Map<UserDto>(user));
     }
@@ -50,7 +56,10 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Create(CreateUserDto dto)
     {
         var user = _mapper.Map<User>(dto);
-        await _repository.Add(user);
+
+        await _context.Users.AddAsync(user);
+        await _context.SaveChangesAsync();
+
         return Ok(_mapper.Map<UserDto>(user));
     }
 
@@ -58,11 +67,14 @@ public class UserController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, UpdateUserDto dto)
     {
-        var user = await _repository.GetById(id);
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
         if (user == null) return NotFound();
 
         _mapper.Map(dto, user);
-        await _repository.Update(user);
+
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+
         return Ok(_mapper.Map<UserDto>(user));
     }
 
@@ -70,10 +82,12 @@ public class UserController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var user = await _repository.GetById(id);
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
         if (user == null) return NotFound();
 
-        await _repository.Delete(id);
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+
         return NoContent();
     }
 }

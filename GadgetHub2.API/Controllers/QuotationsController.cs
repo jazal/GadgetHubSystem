@@ -2,7 +2,6 @@
 using GadgetHub.API.Data;
 using GadgetHub.API.Distributors;
 using GadgetHub.API.Repositories;
-using GadgetHub.Dtos;
 using GadgetHub.Dtos.Distributors;
 using GadgetHub.Dtos.Quotations;
 using Microsoft.AspNetCore.Mvc;
@@ -14,21 +13,18 @@ namespace GadgetHub.API.Controllers;
 [ApiController]
 public class QuotationsController : ControllerBase
 {
-    private readonly QuotationService _qoutationService;
     private readonly OrderService _orderService;
     private readonly IMapper _mapper;
     private readonly ExternalApiService _externalApiService;
     private readonly GadgetHubContext _context;
 
     public QuotationsController(
-        QuotationService quotationService,
         OrderService orderService,
         IMapper mapper,
         ExternalApiService externalApiService,
         GadgetHubContext context
         )
     {
-        _qoutationService = quotationService;
         _orderService = orderService;
         _mapper = mapper;
         _externalApiService = externalApiService;
@@ -70,7 +66,8 @@ public class QuotationsController : ControllerBase
 
         order.TotalAmount = order.OrderItems.Select(x => x.Quantity * x.Price).Sum();
 
-        await _orderService.Update(order);
+        _context.Orders.Update(order);
+        await _context.SaveChangesAsync();
 
         // 2. Change status in Dis Qoutations 
         // TODO
@@ -79,47 +76,4 @@ public class QuotationsController : ControllerBase
         return Ok();
     }
 
-    #region Ne NEED REMOVE
-
-    [HttpGet("GetByOrderId")]
-    public async Task<IActionResult> GetByOrderId(int orderId)
-    {
-        var qoutations = _qoutationService.GetAll().Result
-            .Where(x => x.OrderId == orderId)
-            .Select(q => new QuotationDto
-            {
-                Id = q.Id,
-                DistributorId = q.DistributorId,
-                OrderId = q.OrderId,
-                OrderItemId = q.OrderId,
-                Price = q.Price,
-                Quantity = q.Quantity,
-                EstimatedDeliveryDays = q.EstimatedDeliveryDays,
-                CreatedOn = q.CreatedOn
-            }).ToList();
-
-        return Ok(qoutations);
-    }
-
-    [HttpPost("CreateQuotation")]
-    public async Task<IActionResult> Create(List<CreateQuotationDto> dto)
-    {
-        await _qoutationService.AddRange(dto);
-        return Ok();
-    }
-
-    [HttpPost("getquotations")]
-    public async Task<IActionResult> GetQuotations([FromBody] QuotationRequestDto request)
-    {
-        var quotations = await _qoutationService.GetQuotationsAsync(request);
-
-        if (quotations == null || !quotations.Any())
-        {
-            return NotFound("No quotations available from distributors.");
-        }
-
-        return Ok(quotations);
-    }
-
-    #endregion
 }

@@ -1,41 +1,28 @@
 ﻿using AutoMapper;
-using GadgetHub.API.Base;
+using GadgetHub.API.Data;
 using GadgetHub.API.Extensions;
 using GadgetHub.API.Models;
 using GadgetHub.Dtos;
 using GadgetHub.Dtos.Enums;
 using GadgetHub.Dtos.Order;
 using GadgetHub.Dtos.OrderItems;
-using GadgetHub.Dtos.Quotations;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace GadgetHub.API.Repositories;
 
 public class OrderService
 {
-    private readonly IBaseRepository<Order> _repo;
-    private readonly IBaseRepository<User> _userRepo;
-    private readonly IBaseRepository<Quotation> _quoRepo;
+    private readonly GadgetHubContext _context;
     private readonly IMapper _mapper;
 
     public OrderService(
-        IBaseRepository<Order> repo,
-        IBaseRepository<User> userRepo,
-        IBaseRepository<Quotation> quoRepo,
+        GadgetHubContext context,
         IMapper mapper)
     {
-        _repo = repo;
-        _userRepo = userRepo;
-        _quoRepo = quoRepo;
+        _context = context;
         _mapper = mapper;
     }
 
-    public Task<List<Order>> GetAll() => _repo.GetAllAsync();
-    public Task<Order?> GetById(int id) => _repo.GetByIdAsync(id);
-    public Task Add(Order order) => _repo.AddAsync(order);
-    public Task Update(Order order) => _repo.UpdateAsync(order);
-    public Task Delete(int id) => _repo.DeleteAsync(id);
 
     public async Task<OrderResponseDto> PlaceOrder(CreateOrderDto request)
     {
@@ -43,7 +30,8 @@ public class OrderService
         order.CreatedOn = DateTime.Now;
         // order.TotalAmount ??= 0m;
 
-        await _repo.AddAsync(order);
+        await _context.Orders.AddAsync(order);
+        await _context.SaveChangesAsync();
 
         return new OrderResponseDto
         {
@@ -55,17 +43,12 @@ public class OrderService
     public async Task<List<CustomerOrderDto>> GetOrders(FilterOrderDto input)
     {
         var orders = await (
-            from order in _repo.GetAll()
+            from order in _context.Orders.Include(x => x.OrderItems)
                 .WhereIf(input.OrderId.HasValue, x => x.Id == input.OrderId)
                 .WhereIf(input.CustomerId.HasValue, x => x.CustomerId == input.CustomerId)
                 .WhereIf(input.OrderStatus.HasValue, x => x.OrderStatus == input.OrderStatus)
 
-            join user in _userRepo.GetAll() on order.CustomerId equals user.Id
-
-            //join q in _quoRepo.GetAll() on order.Id equals q.OrderId into quotationGroup
-            //from quotation in quotationGroup.DefaultIfEmpty() // left join
-
-            join q in _quoRepo.GetAll() on order.Id equals q.OrderId into quotationGroup
+            join user in _context.Users on order.CustomerId equals user.Id
 
             select new CustomerOrderDto
             {
@@ -84,18 +67,6 @@ public class OrderService
                     ProductId = ot.ProductId,
                     ProductName = ot.ProductName,
                     Quantity = ot.Quantity
-                }).ToList(),
-                Quotations = quotationGroup.Where(q => q != null)
-                .Select(q => new QuotationDto
-                {
-                    Id = q.Id,
-                    DistributorId = q.DistributorId,
-                    OrderId = q.OrderId,
-                    OrderItemId = q.OrderId,
-                    Price = q.Price,
-                    Quantity = q.Quantity,
-                    EstimatedDeliveryDays = q.EstimatedDeliveryDays,
-                    CreatedOn = q.CreatedOn
                 }).ToList()
             }
         ).ToListAsync();
@@ -106,8 +77,8 @@ public class OrderService
     public async Task<List<CustomerOrderDto>> GetPendingOrders()
     {
         var orders = await (
-            from order in _repo.GetAll()
-            join user in _userRepo.GetAll() on order.CustomerId equals user.Id
+            from order in _context.Orders.Include(x => x.OrderItems)
+            join user in _context.Users on order.CustomerId equals user.Id
             where order.OrderStatus == OrderStatus.AssignToDistributor
             select new CustomerOrderDto
             {
@@ -127,13 +98,8 @@ public class OrderService
     public async Task<List<CustomerOrderDto>> GetOrderById(int orderId)
     {
         var orders = await (
-            from order in _repo.GetAll()
-            join user in _userRepo.GetAll() on order.CustomerId equals user.Id
-
-            //join q in _quoRepo.GetAll() on order.Id equals q.OrderId into quotationGroup
-            //from quotation in quotationGroup.DefaultIfEmpty() // left join
-
-            join q in _quoRepo.GetAll() on order.Id equals q.OrderId into quotationGroup
+            from order in _context.Orders.Include(x => x.OrderItems)
+            join user in _context.Users on order.CustomerId equals user.Id
 
             where order.Id == orderId
             select new CustomerOrderDto
@@ -153,18 +119,6 @@ public class OrderService
                     ProductId = ot.ProductId,
                     ProductName = ot.ProductName,
                     Quantity = ot.Quantity
-                }).ToList(),
-                Quotations = quotationGroup.Where(q => q != null)
-                .Select(q => new QuotationDto
-                {
-                    Id = q.Id,
-                    DistributorId = q.DistributorId,
-                    OrderId = q.OrderId,
-                    OrderItemId = q.OrderId,
-                    Price = q.Price,
-                    Quantity = q.Quantity,
-                    EstimatedDeliveryDays = q.EstimatedDeliveryDays,
-                    CreatedOn = q.CreatedOn
                 }).ToList()
             }
         ).ToListAsync();
