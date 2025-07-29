@@ -47,8 +47,8 @@
             <tr>
                 <th>Product</th>
                 <th>Qty</th>
-                <th> Price</th>
-                <th>Total</th>
+               @*  <th> Price</th>
+                <th>Total</th> *@
                 @* <th class="bg-warning">Price</th>
                     <th class="bg-warning">Quantity</th> *@
             </tr>
@@ -61,8 +61,8 @@
                 <tr>
                     <td>@item.ProductName</td>
                     <td>@item.Quantity</td>
-                    <td>@item.Price</td>
-                    <td>@(item.Quantity * item.Price)</td>
+                    @* <td>@item.Price</td>
+                    <td>@(item.Quantity * item.Price)</td> *@
                     @* <td>
                             <input type="number" name="QuotationInputs[@i].DistributorId" value="@distributorId" />
                             <input type="number" name="QuotationInputs[@i].OrderId" value="@Model.OrderId" />

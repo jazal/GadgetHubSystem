@@ -1,4 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@using System.Text.Json
+@using GadgetHub.Dtos.Users
+
+@{
+    var currentUserCookie = Context.Request.Cookies["currentUser"];
+    UserDto? currentUser = null;
+
+    if (!string.IsNullOrEmpty(currentUserCookie))
+    {
+        currentUser = JsonSerializer.Deserialize<UserDto>(currentUserCookie);
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -30,7 +43,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Products/Index">Products</a>
-                        </li>                        
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Distributors/Index">Distributors</a>
                         </li>
@@ -46,9 +59,25 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Account/Register">Register</a>
                         </li>
-                        <li class="nav-item">
+                        @* <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Account/Login">Login</a>
+                        </li> *@
+                        <li class ="nav-item">
+
+                            @if (currentUser != null)
+                            {
+                                <div class="text-end">
+                                    <span>Hello, @currentUser.Name!</span> |
+                                    <a class="nav-link text-dark" asp-page="/Account/Logout" class="bg-danger">Sign Out</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <a asp-page="/Account/Login">Login</a>
+                            }
+
                         </li>
+
                     </ul>
                 </div>
             </div>
@@ -73,3 +102,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
