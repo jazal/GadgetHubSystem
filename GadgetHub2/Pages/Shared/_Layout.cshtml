@@ -62,20 +62,18 @@
                         @* <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Account/Login">Login</a>
                         </li> *@
-                        <li class ="nav-item">
-
+                        <li class="nav-item ms-auto">
                             @if (currentUser != null)
                             {
-                                <div class="text-end">
-                                    <span>Hello, @currentUser.Name!</span> |
-                                    <a class="nav-link text-dark" asp-page="/Account/Logout" class="bg-danger">Sign Out</a>
+                                <div class="d-flex align-items-center">
+                                    <span class="me-2">Hello, @currentUser.Name!</span>
+                                    <a class="btn btn-danger" asp-page="/Account/Logout">Sign Out</a>
                                 </div>
                             }
                             else
                             {
-                                <a asp-page="/Account/Login">Login</a>
+                                <a class="btn btn-success" asp-page="/Account/Login">Login</a>
                             }
-
                         </li>
 
                     </ul>
