@@ -32,9 +32,10 @@ public class OrderController : ControllerBase
     [HttpPost("GetAll")]
     public async Task<IActionResult> GetAll([FromBody] FilterOrderDto input)
     {
-        var orders = await _orderService.GetOrders(input);
+       var orders = await _orderService.GetOrders(input);
 
         return Ok(orders);
+      
     }
 
     [HttpGet("{id}")]

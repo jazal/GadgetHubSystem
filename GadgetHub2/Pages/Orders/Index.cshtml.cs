@@ -1,5 +1,7 @@
-using GadgetHub.Dtos.Order;
+﻿using GadgetHub.Dtos.Order;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text.Json;
 
 namespace GadgetHub.Web.Pages.Orders
 {
@@ -7,30 +9,33 @@ namespace GadgetHub.Web.Pages.Orders
     {
         private readonly HttpClient _http;
 
-        public IndexModel(IHttpClientFactory httpClientFactory)
-        {
-            _http = httpClientFactory.CreateClient("GadgetHubAPI");
-        }
+       public IndexModel(IHttpClientFactory httpClientFactory)
+       {
+           _http = httpClientFactory.CreateClient("GadgetHubAPI");
+       }
 
         public List<CustomerOrderDto> Orders { get; set; } = new();
+    public async Task OnGetAsync()
+      {
+           var response = await _http.PostAsJsonAsync("Order/GetAll", new FilterOrderDto());
 
-        public async Task OnGetAsync()
-        {
-            var response = await _http.PostAsJsonAsync("Order/GetAll", new FilterOrderDto());
-
-            if (response.IsSuccessStatusCode)
+           if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadFromJsonAsync<List<CustomerOrderDto>>();
-                if (data != null)
-                {
+               if (data != null)
+             {
                     Orders = data;
                 }
-            }
-            else
-            {
-                // Handle error (optional)
-                Orders = new List<CustomerOrderDto>();
-            }
-        }
+           }
+           else
+           {
+               // Handle error (optional)
+               Orders = new List<CustomerOrderDto>();
+           }
+       }
     }
+
+   
+
+   
 }

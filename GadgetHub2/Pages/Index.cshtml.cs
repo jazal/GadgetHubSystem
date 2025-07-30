@@ -1,4 +1,4 @@
-﻿//using Microsoft.AspNetCore.Mvc;
+﻿    //using Microsoft.AspNetCore.Mvc;
 //using Microsoft.AspNetCore.Mvc.RazorPages;
 
 //namespace GadgetHub2.Pages
@@ -62,15 +62,51 @@ namespace GadgetHub.Web.Pages
             Products = allProducts;
         }
 
-        // Handles Add to Cart (to be implemented next)
-        public async Task<IActionResult> OnPostAddToCart(int id)
-        {
-            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
 
-            // ✅ Fetch product details from API
-            var product = await _productService.GetByIdAsync(id);
-            if (product != null)
+
+        // Handles Add to Cart (to be implemented next)
+        //        public async Task<IActionResult> OnPostAddToCart(int id)
+        //        {
+        //            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+        //            // ✅ Fetch product details from API
+        //            var product = await _productService.GetByIdAsync(id);
+        //            if (product != null)
+        //            {
+        //                var existingItem = cart.FirstOrDefault(c => c.ProductId == id);
+        //                if (existingItem != null)
+        //                {
+        //                    existingItem.Quantity += 1;
+        //                }
+        //                else
+        //                {
+        //                    cart.Add(new CartItem
+        //        {
+        //                        ProductId = product.Id,
+        //                        ProductName = product.Name,
+        //                        Price = product.Price ?? 0,  // ✅ Price added
+        //                        Quantity = 1
+        //                    });
+        //                }
+
+        //                HttpContext.Session.SetObjectAsJson("Cart", cart);
+        //            }
+
+        //            return RedirectToPage("/Cart/Index");
+        //        }
+        //    }
+        //}
+
+        public async Task<IActionResult> OnPostAddToCartAsync(int id)
+        {
+            try
             {
+                var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+                var product = await _productService.GetByIdAsync(id);
+
+                if (product == null)
+                    return NotFound();
+
                 var existingItem = cart.FirstOrDefault(c => c.ProductId == id);
                 if (existingItem != null)
                 {
@@ -79,21 +115,23 @@ namespace GadgetHub.Web.Pages
                 else
                 {
                     cart.Add(new CartItem
-        {
+                    {
                         ProductId = product.Id,
                         ProductName = product.Name,
-                        Price = product.Price ?? 0,  // ✅ Price added
+                        Price = product.Price ?? 0,
                         Quantity = 1
                     });
                 }
 
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
+                return new JsonResult(new { success = true, cartCount = cart.Sum(x => x.Quantity) });
             }
-
-            return RedirectToPage("/Cart/Index");
+            catch (Exception ex)
+            {
+                // Log the error or return a generic failure
+                return new JsonResult(new { success = false, error = ex.Message });
+            }
         }
+
     }
 }
-
-
-

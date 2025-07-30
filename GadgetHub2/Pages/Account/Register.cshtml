@@ -29,15 +29,15 @@
     <div class="form-group mt-2">
         <label asp-for="Register.UserType"></label>
         <select asp-for="Register.UserType" class="form-control">
-            <option value="2">Customer</option>
-            <option value="1">Distributor</option>
+            <option value="2" selected>Customer</option>
         </select>
         <span asp-validation-for="Register.UserType" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-primary mt-3">Register</button>
-</form>
+    <p>Already have an account? <a asp-page="/Account/Login">Login here</a></p>
 
+</form>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

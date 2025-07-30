@@ -26,11 +26,9 @@ else
                 <tr>
                     <td>@order.OrderId</td>
                     <td>@order.CustomerId</td>
-                    <td>@(order.TotalAmount.HasValue? order.TotalAmount.Value.ToString("C") : "N/A")</td>
+                    <td>@order.TotalAmount</td>
                     <td>
-                        @(order.CreatedOn.HasValue
-                                        ? order.CreatedOn.Value.ToString("yyyy-MM-dd")
-                                        : "N/A")
+                        @(order.CreatedOn.HasValue? order.CreatedOn.Value.ToString("yyyy-MM-dd"): "N/A")
             </td>
                     <td>
                         @switch (order.OrderStatus)

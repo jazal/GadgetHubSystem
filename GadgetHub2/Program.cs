@@ -14,6 +14,9 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+
+
+
 //HttpClient Services 
 
 builder.Services.AddHttpClient<QuotationService>();
@@ -76,6 +79,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+
 
 // Session
 app.UseSession();  

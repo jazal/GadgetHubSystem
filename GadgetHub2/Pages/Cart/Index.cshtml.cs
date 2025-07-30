@@ -62,7 +62,7 @@ namespace GadgetHub.Web.Pages.Cart
 
             if(!customerId.HasValue)
             {
-                Message = "Please Login Again";
+                Message = "Please Login ";
                 return RedirectToPage();
             }
 

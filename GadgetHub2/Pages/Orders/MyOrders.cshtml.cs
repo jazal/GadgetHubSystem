@@ -1,6 +1,7 @@
 ﻿using GadgetHub.Web.Models;
 using GadgetHub.Web.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text.Json;
 
 namespace GadgetHub.Web.Pages.Orders
 {
@@ -17,8 +18,10 @@ namespace GadgetHub.Web.Pages.Orders
 
         public async Task OnGetAsync()
         {
-            int customerId = 6; // ✅ Hardcoded now, later replace with logged-in user
+            var customerId = int.Parse(User.FindFirst("CustomerId").Value);
             Orders = await _orderService.GetCustomerOrdersAsync(customerId);
         }
     }
-}
+
+}       
+

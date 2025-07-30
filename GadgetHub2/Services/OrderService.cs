@@ -1,4 +1,5 @@
 ﻿using GadgetHub.Web.Models;
+using static System.Net.WebRequestMethods;
 
 namespace GadgetHub.Web.Services
 {
@@ -37,5 +38,7 @@ namespace GadgetHub.Web.Services
         {
             throw new NotImplementedException();
         }
+
+              
     }
 }

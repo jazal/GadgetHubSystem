@@ -1,12 +1,16 @@
 using GadgetHub.Web.Models;
 using GadgetHub.Web.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text.Json;
 
 namespace GadgetHub.Web.Pages.Orders
 {
+   
     public class DetailsModel : PageModel
     {
+
         private readonly OrderService _orderService;
 
         public DetailsModel(OrderService orderService)
@@ -14,7 +18,7 @@ namespace GadgetHub.Web.Pages.Orders
             _orderService = orderService;
         }
 
-        [BindProperty(SupportsGet = true)]
+       [BindProperty(SupportsGet = true)]
         public int OrderId { get; set; }
 
         public OrderDetailsViewModel OrderDetails { get; set; }
@@ -28,5 +32,9 @@ namespace GadgetHub.Web.Pages.Orders
             }
             return Page();
         }
+
+       
     }
+
 }
+

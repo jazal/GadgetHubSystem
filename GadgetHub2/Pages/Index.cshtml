@@ -109,20 +109,26 @@ else
                     <div class="card-body text-center">
                         <h5 class="card-title">@product.Name</h5>
                         <p class="card-text text-muted">@product.Description</p>
-                        <p><strong>@(product.Price?.ToString("C") ?? "Price N/A")</strong></p>
+                        <p><strong>@(product.Price)</strong></p>
                     </div>
 
                     <div class="card-footer text-center">
                         <!-- View Details -->
                         <a class="btn btn-outline-primary btn-sm me-2"
                            asp-page="/Products/Details"
-                           asp-route-id="@product.Id">View Details
+                           asp-route-id="@product.Id">
+                            View Details
                         </a>
 
                         <!-- Add to Cart -->
-                        <form method="post" asp-page-handler="AddToCart" asp-route-id="@product.Id" style="display:inline;">
+                        @* <form method="post" asp-page-handler="AddToCart" asp-route-id="@product.Id" style="display:inline;">
                             <button type="submit" class="btn btn-primary btn-sm">Add to Cart</button>
-                        </form>
+                        </form> *@
+                        <button type="button"
+                                class="btn btn-primary btn-sm add-to-cart-btn"
+                                data-product-id="@product.Id">
+                            Add to Cart
+                        </button>
                     </div>
                 </div>
             </div>
@@ -132,4 +138,35 @@ else
 else
 {
     <p class="text-center">No products match your search and filter criteria.</p>
+}
+
+@section Scripts {
+    @Html.AntiForgeryToken()
+
+    <script>
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            button.addEventListener('click', async () => {
+                const productId = button.getAttribute('data-product-id');
+                const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                const response = await fetch(`?handler=AddToCart&id=${productId}`, {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': token
+                    }
+                });
+
+             if (response.ok) {
+            const result = await response.json();
+            if (result.success) {
+                alert("✅ Product added to cart!");
+            } else {
+                alert("⚠ Error: " + result.error);
+            }
+        } else {
+            alert("❌ Failed to add to cart.");
+        }
+            });
+        });
+    </script>
 }

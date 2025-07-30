@@ -2,7 +2,7 @@
 @using GadgetHub.Web.Pages.Orders
 @model GadgetHub.Web.Pages.Orders.DetailsModel
 
-<h2 class="mb-3">Order Details - #@Model.OrderId</h2>
+<h2 class="mb-3">Order Details - #@Model.OrderDetails.OrderId</h2>
 
 @if (Model.OrderDetails == null)
 {
@@ -63,5 +63,5 @@ else
         </tbody>
     </table>
 
-    <p class="mt-3"><strong>Grand Total:</strong> @Model.OrderDetails.TotalAmount.ToString("C")</p>
+    <p class="mt-3"><strong>Grand Total:</strong> @Model.OrderDetails.TotalAmount</p>
 }
