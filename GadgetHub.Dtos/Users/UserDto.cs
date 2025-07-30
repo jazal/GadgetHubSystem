@@ -10,6 +10,6 @@ public class UserDto
 
     public string? Email { get; set; }
 
-    //public UserType UserType { get; set; }
+    public UserType UserType { get; set; }
 
 }
