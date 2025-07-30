@@ -15,21 +15,33 @@
 
 @if (Model.Order != null)
 {
-    <div>
-        <p><strong>Customer:</strong> @Model.Order.CustomerName</p>
-        <p><strong>Email:</strong> @Model.Order.CustomerEmail</p>
-        <p><strong>Order Date:</strong> @Model.Order.CreatedOn?.ToShortDateString()</p>
-        <table class="table">
-            <tr>
-                <td class="fw-bold">Distributor</td>
-                <td>@Model.Order.DistributorName</td>
-            </tr>
-            <tr>
-                <td class="fw-bold">Distributor Confirmed on</td>
-                <td>@(Model.Order.ConfirmedOn.HasValue ? Model.Order.ConfirmedOn.Value.ToString("dd MMM yyyy hh:mm tt") : "-")</td>
-            </tr>
+    <div class="order-details-container">
+        <table class="table table-bordered order-table">
+            <tbody>
+                <tr>
+                    <td class="fw-bold">Customer</td>
+                    <td>@Model.Order.CustomerName</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Email</td>
+                    <td>@Model.Order.CustomerEmail</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Order Date</td>
+                    <td>@Model.Order.CreatedOn?.ToShortDateString()</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Distributor</td>
+                    <td>@Model.Order.DistributorName</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Distributor Confirmed on</td>
+                    <td>@(Model.Order.ConfirmedOn.HasValue? Model.Order.ConfirmedOn.Value.ToString("dd MMM yyyy hh:mm tt") : "-")</td>
+                </tr>
+            </tbody>
         </table>
-        <p>
+
+        <p class="order-status">
             <strong>Status:</strong>
             @if (Model.Order.OrderStatus == GadgetHub.Dtos.Enums.OrderStatus.Completed)
             {
@@ -42,41 +54,28 @@
         </p>
     </div>
 
-    <table class="table">
-        <thead>
+   <table class="table order-items-table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th class="text-center">Qty</th>
+           @*  <th class="text-end">Price</th>
+            <th class="text-end">Total</th> *@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Order.OrderItems)
+        {
             <tr>
-                <th>Product</th>
-                <th>Qty</th>
-               @*  <th> Price</th>
-                <th>Total</th> *@
-                @* <th class="bg-warning">Price</th>
-                    <th class="bg-warning">Quantity</th> *@
+                <td>@item.ProductName</td>
+                <td class="text-center">@item.Quantity</td>
+                @* <td class="text-end">@item.Price</td>
+                <td class="text-end">@item.Quantity * item.Price</td> *@
             </tr>
-        </thead>
-        <tbody>
-            @for (int i = 0; i < Model.Order.OrderItems.Count(); i++)
-            {
-                var item = Model.Order.OrderItems[i];
-                @* var qou = quotations.Where(x => x.OrderItemId == item.Id).FirstOrDefault(); *@
-                <tr>
-                    <td>@item.ProductName</td>
-                    <td>@item.Quantity</td>
-                    @* <td>@item.Price</td>
-                    <td>@(item.Quantity * item.Price)</td> *@
-                    @* <td>
-                            <input type="number" name="QuotationInputs[@i].DistributorId" value="@distributorId" />
-                            <input type="number" name="QuotationInputs[@i].OrderId" value="@Model.OrderId" />
-                            <input type="number" name="QuotationInputs[@i].OrderItemId" value="@item.Id" />
-                            <input type="number" name="QuotationInputs[@i].Price" value="@qou?.Price ?? 0" />
-                            <input type="number" name="QuotationInputs[@i].EstimatedDeliveryDays" value="5" />
-                        </td>
-                        <td>
-                            <input type="number" name="QuotationInputs[@i].Quantity" value="@qou?.Quantity ?? 0" />
-                        </td> *@
-                </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
+
 
     @if (quotations != null && quotations.Any())
     {
@@ -133,7 +132,7 @@
                                             <td>@item.ProductName</td>
                                             <td>@item.Quantity</td>
                                             <td>@item.Price</td>
-                                            <td>@(item.Quantity * item.Price)</td>
+                                            <td>@(item.Quantity* item.Price)</td>
                                         </tr>
                                     }
                                 </tbody>
