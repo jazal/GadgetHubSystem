@@ -26,7 +26,7 @@ public class UserService
             Id = user.Id,
             Name = user.Name,
             Email = user.Email,
-            //UserType = user.UserType
+            UserType = user.UserType
         };
     }
 }
