@@ -10,6 +10,6 @@ public class CreateUserDto
 
     public string? Password { get; set; }
 
-    //public UserType UserType { get; set; }
+    public UserType UserType { get; set; }
 
 }

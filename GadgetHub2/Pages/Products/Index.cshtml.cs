@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using GadgetHub.Web.Models;
 using GadgetHub.Web.Services;
@@ -14,14 +14,17 @@ public class IndexModel : PageModel
         _productService = productService;
     }
 
-    public List<ProductViewModel> Products { get; set; }
+    // ✅ Initialize the list to avoid null reference issues
+    public List<ProductViewModel> Products { get; set; } = new();
 
     public async Task OnGetAsync()
     {
-        Products = await _productService.GetAllAsync();
+        // ✅ Ensure Products never becomes null
+        Products = await _productService.GetAllAsync() ?? new List<ProductViewModel>();
     }
 
-    public async Task<IActionResult> OnGetDeleteAsync(int id)
+    // ✅ Change handler from GET to POST (because your form uses method="post")
+    public async Task<IActionResult> OnPostDeleteAsync(int id)
     {
         await _productService.DeleteAsync(id);
         return RedirectToPage();

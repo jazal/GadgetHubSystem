@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using GadgetHub.Web.Models;
 using GadgetHub.Web.Services;
+using GadgetHub.Dtos.Product;
 
 namespace GadgetHub.Web.Pages.Products;
 
@@ -19,7 +20,7 @@ public class CreateModel : PageModel
 
     public void OnGet()
     {
-        // optional: init values if needed
+        
     }
 
     public async Task<IActionResult> OnPostAsync()

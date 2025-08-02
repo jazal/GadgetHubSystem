@@ -35,7 +35,7 @@ else
             {
                 <tr>
                     <td>@item.ProductName</td>
-                    <td>@item.Price</td>
+                    <td>@($"LKR {item.Price.ToString("N2")}")</td>
                     <td>
                         <form method="post" asp-page-handler="UpdateQuantity" class="d-flex">
                             <input type="hidden" name="id" value="@item.ProductId" />
@@ -55,7 +55,7 @@ else
     </table>
 
     <div class="d-flex justify-content-between align-items-center mt-3">
-        <h4>Total: @Model.CartItems.Sum(i => i.Price * i.Quantity)</h4>
+        <h4>Total LKR : @Model.CartItems.Sum(i => i.Price * i.Quantity)</h4>
 
         <form method="post" asp-page-handler="Checkout">
             <button type="submit" class="btn btn-primary btn-lg">Proceed to Checkout</button>

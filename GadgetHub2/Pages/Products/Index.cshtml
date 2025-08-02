@@ -1,39 +1,4 @@
-﻿@* @page
-@model GadgetHub.Web.Pages.Products.IndexModel
-@{
-    <h2>Product List</h2>
-
-    <a class="btn btn-success" asp-page="Create">Add New Product</a>
-
-    <table class="table table-striped mt-3">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Created On</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var product in Model.Products)
-            {
-                <tr>
-                    <td>@product.Name</td>
-                    <td>@product.Description</td>
-                    <td>@(product.Price?.ToString("C") ?? "N/A")</td>
-                    <td>@(product.CreatedOn?.ToString("yyyy-MM-dd") ?? "N/A")</td>
-                    <td>
-                        <a class="btn btn-primary btn-sm" asp-page="Edit" asp-route-id="@product.Id">Edit</a>
-                        <a class="btn btn-danger btn-sm" asp-page-handler="Delete" asp-route-id="@product.Id">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
- *@
-@page
+﻿@page
 @using GadgetHub.Web.Pages.Products
 @model GadgetHub.Web.Pages.Products.IndexModel
 
@@ -41,45 +6,78 @@
     ViewData["Title"] = "Product List";
 }
 
-<h2>Product List</h2>
+<h2 class="mb-3">Product List</h2>
 
 <!-- Button to add a new product -->
-<a class="btn btn-success" asp-page="Create">Add New Product</a>
+<a class="btn btn-success mb-3" asp-page="Create">➕ Add New Product</a>
 
 <!-- Table displaying the list of products -->
-<table class="table table-striped mt-3">
-    <thead>
+<table class="table table-bordered table-hover align-middle">
+    <thead class="table-dark">
         <tr>
+            <th>Image</th>
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
             <th>Created On</th>
-            <th>Actions</th> <!-- Edit/Delete -->
-            <th>Quote</th>    <!-- New: View Quotations -->
+            <th>Actions</th>
+            <th>Quote</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var product in Model.Products)
+        <!-- ✅ Null check to avoid crash when Products is empty -->
+        @if (Model.Products != null && Model.Products.Any())
         {
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <!-- ✅ Show product image or default -->
+                    <td>
+                        <img src="@(!string.IsNullOrEmpty(product.ImageUrl) ? product.ImageUrl : "/images/products/default.png")"
+                             alt="@product.Name"
+                             width="80"
+                             height="80"
+                             style="object-fit:cover; border-radius:8px;" />
+                    </td>
+
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+
+                    <!-- ✅ Format price in LKR -->
+                    <td>@($"LKR {product.Price?.ToString("N2")}")</td>
+
+                    <!-- ✅ Show formatted date -->
+                    <td>@(product.CreatedOn?.ToString("yyyy-MM-dd") ?? "N/A")</td>
+
+                    <!-- ✅ Action buttons -->
+                    <td>
+                        <a class="btn btn-primary btn-sm" asp-page="Edit" asp-route-id="@product.Id">Edit</a>
+
+                        <!-- ✅ Change to POST for delete -->
+                        <form method="post" asp-page-handler="Delete" asp-route-id="@product.Id" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+
+                    <!-- View Quotations -->
+                    <td>
+                        <a class="btn btn-info btn-sm"
+                           asp-page="/Quotations/Index"
+                           asp-route-ProductId="@product.Id"
+                           asp-route-Quantity="1">
+                            View Quotations
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <!-- ✅ Show message when no products -->
             <tr>
-                <td>@product.Name</td>
-                <td>@product.Description</td>
-                <td>@(product.Price?.ToString("C") ?? "N/A")</td>
-                <td>@(product.CreatedOn?.ToString("yyyy-MM-dd") ?? "N/A")</td>
-                <td>
-                    <!-- Edit and Delete buttons -->
-                    <a class="btn btn-primary btn-sm" asp-page="Edit" asp-route-id="@product.Id">Edit</a>
-                    <a class="btn btn-danger btn-sm" asp-page-handler="Delete" asp-route-id="@product.Id">Delete</a>
-                </td>
-                <td>
-                    <!-- New: View Quotations button -->
-                    <a class="btn btn-info btn-sm"
-                       asp-page="/Quotations/Index"
-                       asp-route-ProductId="@product.Id"
-                       asp-route-Quantity="1">
-                        View Quotations
-                    </a>
-                </td>
+                <td colspan="7" class="text-center text-muted">No products found.</td>
             </tr>
         }
     </tbody>

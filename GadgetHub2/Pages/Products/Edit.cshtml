@@ -22,8 +22,20 @@
 
         <div class="form-group">
             <label asp-for="Product.Price"></label>
-            <input asp-for="Product.Price" class="form-control" />
+            <div class="input-group">
+                <span class="input-group-text">LKR</span>
+                <input asp-for="Product.Price" class="form-control" />
+            </div>
             <span asp-validation-for="Product.Price" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Product.ImageUrl">Image URL</label>
+            <input asp-for="Product.ImageUrl" class="form-control" placeholder="/images/products/sample.jp" />
+            <small class="form-text text-muted">
+                Example: /images/products/iphone14.jpg (make sure the image is in wwwroot/images/products)
+            </small>
+            <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
         </div>
 
         <button type="submit" class="btn btn-primary">Update</button>

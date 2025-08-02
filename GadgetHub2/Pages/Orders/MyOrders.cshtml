@@ -26,7 +26,7 @@ else
                 <tr>
                     <td>@order.OrderId</td>
                     <td>@order.CustomerId</td>
-                    <td>@order.TotalAmount</td>
+                    <td>@($"LKR {order.TotalAmount?.ToString("N2")}")</td>
                     <td>
                         @(order.CreatedOn.HasValue? order.CreatedOn.Value.ToString("yyyy-MM-dd"): "N/A")
             </td>

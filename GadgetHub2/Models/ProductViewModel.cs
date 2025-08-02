@@ -1,4 +1,6 @@
-﻿namespace GadgetHub.Web.Models;
+﻿using GadgetHub.Dtos.Product;
+
+namespace GadgetHub.Web.Models;
 
 public class ProductViewModel
 {
@@ -8,4 +10,8 @@ public class ProductViewModel
     public string? Description { get; set; }
     public decimal? Price { get; set; }
     public DateTime? CreatedOn { get; set; }
+    public string? ImageUrl { get; set; }
+
+    
 }
+

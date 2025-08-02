@@ -1,8 +1,6 @@
 ﻿using GadgetHub.Dtos.Order;
 using GadgetHub.Dtos.Users;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Text.Json;
 
 namespace GadgetHub.Web.Pages.Orders
 {
@@ -22,17 +20,28 @@ namespace GadgetHub.Web.Pages.Orders
         {
             var payload = new FilterOrderDto();
 
+            //  Get logged-in user from cookie
             GetCurrentUser();
 
+            //  Check user type and apply filter accordingly
             if (LoggedInUser is null)
             {
+                // If no user is logged in → return empty or CustomerId = 0
                 payload.CustomerId = 0;
             }
             else if (LoggedInUser.UserType == Dtos.Enums.UserType.Customer)
             {
+                //  Customer → only see their own orders
                 payload.CustomerId = LoggedInUser.Id;
             }
+            else if (LoggedInUser.UserType == Dtos.Enums.UserType.Admin)
+            {
+                // Admin → see ALL orders (do NOT filter by CustomerId)
+                // Leave payload.CustomerId as null (assuming API handles null = all orders)
+                payload.CustomerId = null;
+            }
 
+            // Send request to API
             var response = await _http.PostAsJsonAsync("Order/GetAll", payload);
 
             if (response.IsSuccessStatusCode)
@@ -45,13 +54,14 @@ namespace GadgetHub.Web.Pages.Orders
             }
             else
             {
-                // Handle error (optional)
+                //  If API call fails → set empty list (or show error)
                 Orders = new List<CustomerOrderDto>();
             }
         }
 
         private void GetCurrentUser()
         {
+            //  Read user details from cookie
             if (HttpContext.Request.Cookies.ContainsKey("currentUser"))
             {
                 var userJson = HttpContext.Request.Cookies["currentUser"];

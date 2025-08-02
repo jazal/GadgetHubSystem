@@ -104,12 +104,19 @@ else
         {
             <div class="col-md-4 mb-4">
                 <div class="card h-100 shadow-sm">
-                    <img src="https://via.placeholder.com/250x150" class="card-img-top" alt="@product.Name" />
+
+                    <!-- ✅ Show product image or default -->
+                    <img src="@(string.IsNullOrEmpty(product.ImageUrl) ? "/images/products/default.png" : product.ImageUrl)"
+                         class="card-img-top"
+                         alt="@product.Name"
+                         style="height:200px; object-fit:cover;" />
 
                     <div class="card-body text-center">
                         <h5 class="card-title">@product.Name</h5>
                         <p class="card-text text-muted">@product.Description</p>
-                        <p><strong>@(product.Price)</strong></p>
+
+                        <!-- ✅ Format price -->
+                        <p><strong>@($"LKR {product.Price?.ToString("N2")}")</strong></p>
                     </div>
 
                     <div class="card-footer text-center">
@@ -120,10 +127,7 @@ else
                             View Details
                         </a>
 
-                        <!-- Add to Cart -->
-                        @* <form method="post" asp-page-handler="AddToCart" asp-route-id="@product.Id" style="display:inline;">
-                            <button type="submit" class="btn btn-primary btn-sm">Add to Cart</button>
-                        </form> *@
+                        <!-- ✅ Add-to-cart button -->
                         <button type="button"
                                 class="btn btn-primary btn-sm add-to-cart-btn"
                                 data-product-id="@product.Id">

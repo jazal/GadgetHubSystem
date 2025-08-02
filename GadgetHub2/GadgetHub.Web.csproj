@@ -10,4 +10,8 @@
     <ProjectReference Include="..\GadgetHub.Dtos\GadgetHub.Dtos.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\products\" />
+  </ItemGroup>
+
 </Project>

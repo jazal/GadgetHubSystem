@@ -23,7 +23,7 @@
                 <tr>
                     <td>@item.ProductId</td>
                     <td>@item.DistributorName</td>
-                    <td>@item.Price</td>
+                    <td>@($"LKR {item.Price.ToString("N2")}")</td>
                     <td>@item.EstimatedDeliveryDays days</td>
                 </tr>
             }

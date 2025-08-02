@@ -11,6 +11,22 @@
     }
 }
 
+@{
+    bool isAdmin = false;
+
+    // ✅ Get current user from cookie (you already set this in Login)
+    var userJson = Context.Request.Cookies["currentUser"];
+
+    if (!string.IsNullOrEmpty(userJson))
+    {
+        // ✅ Deserialize user from cookie
+        var user = JsonSerializer.Deserialize<UserDto>(userJson);
+
+        // ✅ Check if UserType = 1 (Admin)
+        isAdmin = user?.UserType == GadgetHub.Dtos.Enums.UserType.Admin;
+    }
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,12 +54,21 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Customers/Index">Customers</a>
-                        </li>
+                        @if (isAdmin)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Customers/Index">Customers</a>
+                            </li>
+
+                        }
+                        
+                        @if (isAdmin)
+                        {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Products/Index">Products</a>
                         </li>
+                            
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Distributors/Index">Distributors</a>
                         </li>
@@ -51,17 +76,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Cart/Index">Cart</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Cart/Checkout">Checkout</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Orders/Index">Orders</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Account/Register">Register</a>
                         </li>
-                        @* <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Account/Login">Login</a>
-                        </li> *@
+                       
                         <li class="nav-item ms-auto">
                             @if (currentUser != null)
                             {

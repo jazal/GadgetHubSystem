@@ -28,7 +28,7 @@ else
             {
                 <tr>
                     <td>@quote.DistributorName</td>
-                    <td>@quote.Price.ToString("C")</td>
+                    <td>@($"LKR {quote.Price.ToString("N2")}")</td>
                     <td>@quote.AvailableQuantity</td>
                     <td>@quote.EstimatedDeliveryDays</td>
                     <td>

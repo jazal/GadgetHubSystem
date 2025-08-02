@@ -2,6 +2,6 @@
 
 public enum UserType : byte
 {
-    Distributor = 1,
+    /*Distributor*/Admin = 1,
     Customer = 2
 }
