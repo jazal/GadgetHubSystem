@@ -7,7 +7,6 @@
 @using GadgetHub.Web.Pages.Orders
 
 @{
-    var distributorId = 2;
     var quotations = ViewData["quotations"] as List<QuotationsViewModel>;
 }
 
@@ -36,7 +35,19 @@
                 </tr>
                 <tr>
                     <td class="fw-bold">Distributor Confirmed on</td>
-                    <td>@(Model.Order.ConfirmedOn.HasValue? Model.Order.ConfirmedOn.Value.ToString("dd MMM yyyy hh:mm tt") : "-")</td>
+                    <td>@(Model.Order.ConfirmedOn.HasValue ? Model.Order.ConfirmedOn.Value.ToString("dd MMM yyyy hh:mm tt") : "-")</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Quotation Status</td>
+
+                    @if (quotations.Count < 3)
+                    {
+                        <td>Waiting for @(3 - quotations.Count) quotation(s)</td>
+                    }
+                    else
+                    {
+                        <td>Already quoation is approved by the system.</td>
+                    }
                 </tr>
             </tbody>
         </table>
@@ -54,27 +65,27 @@
         </p>
     </div>
 
-   <table class="table order-items-table">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th class="text-center">Qty</th>
-           @*  <th class="text-end">Price</th>
-            <th class="text-end">Total</th> *@
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Order.OrderItems)
-        {
+    <table class="table order-items-table">
+        <thead>
             <tr>
-                <td>@item.ProductName</td>
-                <td class="text-center">@item.Quantity</td>
-                @* <td class="text-end">@item.Price</td>
-                <td class="text-end">@item.Quantity * item.Price</td> *@
+                <th>Product</th>
+                <th class="text-center">Qty</th>
+                @*  <th class="text-end">Price</th>
+            <th class="text-end">Total</th> *@
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Order.OrderItems)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td class="text-center">@item.Quantity</td>
+                    @* <td class="text-end">@item.Price</td>
+                <td class="text-end">@item.Quantity * item.Price</td> *@
+                </tr>
+            }
+        </tbody>
+    </table>
 
 
     @if (quotations != null && quotations.Any())
@@ -132,7 +143,7 @@
                                             <td>@item.ProductName</td>
                                             <td>@item.Quantity</td>
                                             <td>@item.Price</td>
-                                            <td>@(item.Quantity* item.Price)</td>
+                                            <td>@(item.Quantity * item.Price)</td>
                                         </tr>
                                     }
                                 </tbody>
